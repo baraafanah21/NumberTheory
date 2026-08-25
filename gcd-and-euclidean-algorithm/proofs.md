@@ -6,7 +6,8 @@ Every theorem here corresponds to a property stated in [README.md](README.md).
 $\geq 0$, with the convention $\gcd(0,0) = 0$. $F_n$ is the Fibonacci sequence
 $F_1 = F_2 = 1$, $F_{n+1} = F_n + F_{n-1}$.
 
-**Prerequisites (from the divisibility concept, assumed without proof).**
+**Prerequisites (proved in [divisibility/proofs.md](../divisibility/proofs.md), assumed
+here).** D1 is its Theorem 3, D2 its Theorem 4, D3 its Theorem 7, D4 its Theorem 2.
 
 - **D1 (linearity)** — $d \mid a$ and $d \mid b$ $\implies$ $d \mid (ax + by)$ for all
   $x, y \in \mathbb{Z}$.
