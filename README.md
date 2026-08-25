@@ -1,5 +1,5 @@
 # NumberTheory
-
+Recently, I wasted a lot of time jumping between books and resources. To help you avoid the same mistake, here’s my condensed path with extra details you can skip if needed.
 A personal number theory repository, built one concept at a time. Each concept lives in
 its own directory with three files:
 
