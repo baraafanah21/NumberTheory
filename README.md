@@ -10,13 +10,26 @@ its own directory with three files:
 
 ## Concepts
 
-| Concept | Depends on |
-|---|---|
-| [arithmetic-and-geometric-progressions](arithmetic-and-geometric-progressions/) | — |
-| [gcd-and-euclidean-algorithm](gcd-and-euclidean-algorithm/) | divisibility*, progressions (G11) |
+| Concept | Depends on | Key results |
+|---|---|---|
+| [arithmetic-and-geometric-progressions](arithmetic-and-geometric-progressions/) | — | AP/GP sums, $(a-b) \mid (a^n-b^n)$, $\sigma(p^k)$ |
+| [divisibility](divisibility/) | — | division algorithm, $\sqrt n$ divisor pairing, digit tests |
+| [gcd-and-euclidean-algorithm](gcd-and-euclidean-algorithm/) | divisibility, progressions | Euclid's algorithm, Bézout, Euclid's lemma |
 
-\* divisibility is not written yet; the four facts used are stated as explicit
-prerequisites in that concept's §0.
+## Dependency graph
 
-Mathematical notation in the markdown files uses LaTeX (`$…$`, `$$…$$`), which renders on
-GitHub and in the VS Code markdown preview (`Ctrl+Shift+V`).
+```text
+progressions ─────────────┐
+                          ├──→ gcd & Euclid ──→ (extended Euclid → modular inverse → CRT)
+divisibility ─────────────┘         │
+                                    └──→ Euclid's lemma ──→ unique factorization
+```
+
+## Conventions
+
+- Mathematical notation in the markdown files uses LaTeX (`$…$`, `$$…$$`), which renders
+  on GitHub and in the VS Code markdown preview (`Ctrl+Shift+V`).
+- When a concept borrows a result it does not prove, the borrowing is stated explicitly
+  and linked, never assumed silently.
+- Every `implementation.cpp` compiles clean under `g++ -std=c++17 -Wall -Wextra` and its
+  demo output is verified.

@@ -3,8 +3,8 @@
 **Position in the hierarchy:** the first genuinely number-theoretic concept. It turns
 divisibility from a static relation into an *algorithm*.
 
-**Depends on:** divisibility (not yet written in this repo — the four facts used are listed
-below), and one result from
+**Depends on:** [divisibility](../divisibility/) (the four facts used are listed below and
+proved there), and one result from
 [arithmetic-and-geometric-progressions](../arithmetic-and-geometric-progressions/) (GP-5,
 used in Property G11).
 
@@ -15,14 +15,19 @@ Euclid's lemma → unique factorization; lcm; Farey sequences; continued fractio
 
 ## 0. Prerequisites assumed
 
-These belong to the **divisibility** concept. They are stated, not proved, here.
+These are stated, not proved, here. Each links to its proof in the
+[divisibility](../divisibility/) concept.
 
-| | Fact | Used for |
-|---|---|---|
-| **D1** | **Linearity.** If $d \mid a$ and $d \mid b$, then $d \mid (ax + by)$ for all integers $x, y$. | The engine of the whole concept (Theorem 2) |
-| **D2** | **Size bound.** If $d \mid a$ and $a \neq 0$, then $\lvert d \rvert \leq \lvert a \rvert$. | gcd exists (Theorem 1) |
-| **D3** | **Division algorithm.** For integers $a$ and $b \neq 0$ there exist *unique* $q, r$ with $a = qb + r$ and $0 \leq r < \lvert b \rvert$. | Termination (Theorem 3) |
-| **D4** | **Transitivity.** If $c \mid b$ and $b \mid a$ then $c \mid a$. | Assorted |
+| | Fact | Proved in | Used for |
+|---|---|---|---|
+| **D1** | **Linearity.** If $d \mid a$ and $d \mid b$, then $d \mid (ax + by)$ for all integers $x, y$. | [Theorem 3](../divisibility/proofs.md) | The engine of the whole concept (Theorem 2) |
+| **D2** | **Size bound.** If $d \mid a$ and $a \neq 0$, then $\lvert d \rvert \leq \lvert a \rvert$. | [Theorem 4](../divisibility/proofs.md) | gcd exists (Theorem 1) |
+| **D3** | **Division algorithm.** For integers $a$ and $b \neq 0$ there exist *unique* $q, r$ with $a = qb + r$ and $0 \leq r < \lvert b \rvert$. | [Theorem 7](../divisibility/proofs.md) | Termination (Theorem 3) |
+| **D4** | **Transitivity.** If $c \mid b$ and $b \mid a$ then $c \mid a$. | [Theorem 2](../divisibility/proofs.md) | Assorted |
+
+Note that D1 in the form of Corollary 3.2 there — "$d \mid b \implies (d \mid a \iff d \mid a - qb)$" —
+*is* the Euclidean step, so Theorem 2 below is essentially a restatement of a divisibility
+corollary.
 
 Everything else in this file is proved in [proofs.md](proofs.md).
 
