@@ -1,156 +1,193 @@
-# Why it works — GCD and the Euclidean Algorithm
+# Proofs — GCD and the Euclidean Algorithm
 
-Only the proofs that change what you write. Prerequisites D1 (linearity) and D2
-(division algorithm) come from [divisibility](../divisibility/proofs.md).
+Five results. Each one: the claim, what it means, the proof, and why it matters in code.
+
+**Borrowed from [divisibility](../divisibility/proofs.md):**
+
+- **Linearity** — if $d \mid a$ and $d \mid b$ then $d \mid (ax + by)$.
+- **Division algorithm** — for $b \neq 0$ there are unique $q, r$ with $a = qb + r$,
+  $0 \le r < |b|$.
+
+Everything below is built from those two.
 
 ---
 
-## 1. Why the Euclidean step is valid (G1)
+## 1. Why the Euclidean step is valid
 
-> $(a, b)$ and $(a - qb,\ b)$ have **the same set of common divisors**. Hence
-> $\gcd(a,b) = \gcd(b,\ a \bmod b)$.
+**Claim.** For any integer $q$, the pairs $(a,\ b)$ and $(a - qb,\ b)$ have **exactly the
+same common divisors**. In particular
 
-If $d \mid a$ and $d \mid b$, then $d \mid (a - qb)$ by linearity. Conversely if
-$d \mid (a-qb)$ and $d \mid b$, then $d \mid \bigl((a-qb) + qb\bigr) = a$.
+$$\gcd(a,\ b) = \gcd(b,\ a \bmod b)$$
 
-So the step loses **no** information — that is why it can be iterated. Taking
+**In words.** Subtracting a multiple of $b$ from $a$ does not change *which* numbers divide
+both. Not just the largest one — the whole collection. That is why the step can be repeated
+forever without losing information.
+
+**Proof.** Two directions, each one application of linearity.
+
+**($\Rightarrow$)** Suppose $d \mid a$ and $d \mid b$. Using linearity with coefficients
+$x = 1$, $y = -q$:
+
+$$d \mid \bigl(a\cdot 1 + b\cdot(-q)\bigr) = a - qb$$
+
+and $d \mid b$ was given. So $d$ divides both of the new pair.
+
+**($\Leftarrow$)** Suppose $d \mid (a - qb)$ and $d \mid b$. Using linearity with
+coefficients $1$ and $q$ on the *new* pair:
+
+$$d \mid \bigl((a - qb)\cdot 1 + b\cdot q\bigr) = a$$
+
+So $d$ divides both of the original pair.
+
+The two sets of common divisors contain each other, hence are equal — and so are their
+largest elements. $\blacksquare$
+
+**Getting to the modulo form.** By the division algorithm, choosing
 $q = \lfloor a/b\rfloor$ makes $a - qb = a \bmod b$.
 
-**Justifies:** `while (b) { r = a % b; a = b; b = r; }`.
+**In code.** This is the line `a = b; b = a % b;`. Note the step is *reversible*
+($a - qb \mapsto (a-qb) + qb$), which is precisely why nothing is lost.
 
 ---
 
-## 2. Why it terminates, and in $O(\log)$
+## 2. Why it terminates, and why it is fast
 
-**Terminates:** remainders satisfy $0 \leq r < \lvert b \rvert$, so the second argument
-strictly decreases and is bounded below by $0$. It must hit $0$.
+**Claim.** The algorithm always stops, after at most $2\log_2\min(a,b)$ divisions.
 
-**$O(\log)$:** two steps at least halve the value. Let $r_k$ be the remainder sequence.
+**Termination.** By the division algorithm every remainder satisfies $0 \le r < |b|$. So
+the second argument strictly decreases at each step and can never go below $0$. A strictly
+decreasing sequence of non-negative integers must reach $0$. $\blacksquare$
 
-- If $r_{k+1} \leq r_k/2$, then $r_{k+2} < r_{k+1} \leq r_k/2$.
-- If $r_{k+1} > r_k/2$, then the quotient is exactly $1$, so
-  $r_{k+2} = r_k - r_{k+1} < r_k/2$.
+**Speed — two steps at least halve the value.** Let $r_k$ be the sequence of remainders.
+The claim is $r_{k+2} < \frac{r_k}{2}$. Two cases:
 
-Either way $r_{k+2} < r_k/2$, giving at most $2\log_2\min(a,b)$ steps.
+**Case 1: $r_{k+1} \le \frac{r_k}{2}$** (the value already dropped a lot). Then since
+remainders keep decreasing,
 
-**Worst case is Fibonacci.** If $n$ steps are needed then $a \geq F_{n+2}$, $b \geq F_{n+1}$
-(induction: $a = qb + r \geq b + r \geq F_{n+1} + F_n$). So consecutive Fibonacci numbers
-are the smallest inputs requiring $n$ steps — the sharp bound is $\approx 1.44\log_2$.
+$$r_{k+2} < r_{k+1} \le \frac{r_k}{2}$$
 
-**Practical takeaway:** under 90 iterations for any 64-bit input. Stress-test with
-Fibonacci pairs; never worry about the running time.
+**Case 2: $r_{k+1} > \frac{r_k}{2}$** (the value barely dropped). Then $r_{k+1}$ is more
+than half of $r_k$ but less than $r_k$, so $r_k$ divided by $r_{k+1}$ has quotient exactly
+$1$. The modulo becomes a plain subtraction:
 
----
+$$r_{k+2} = r_k - r_{k+1} < r_k - \frac{r_k}{2} = \frac{r_k}{2}$$
 
-## 3. Bézout, and why reachability works (G6)
+Either way the value halves every two steps, so after about $2\log_2$ steps it reaches
+$0$. $\blacksquare$
 
-> There exist $x, y$ with $ax + by = \gcd(a,b)$, and
-> $$\{ax + by : x, y \in \mathbb{Z}\} = \{\text{multiples of } \gcd(a,b)\}$$
+**The idea in one line.** A *small* drop this step forces a *large* drop next step — the
+algorithm can never be lazy twice in a row.
 
-Let $g$ be the **smallest positive** value of $ax + by$ (it exists: $a^2 + b^2 > 0$ is one
-such value). Divide $a$ by $g$: $a = qg + r$ with $0 \leq r < g$. Then
-
-$$r = a - qg = a - q(ax_0 + by_0) = a(1 - qx_0) + b(-qy_0)$$
-
-is *also* a combination. If $r > 0$ it would be a positive combination smaller than $g$ —
-impossible. So $r = 0$, i.e. $g \mid a$; likewise $g \mid b$. And any common divisor $c$
-divides $ax_0 + by_0 = g$ by linearity, so $c \leq g$. Hence $g = \gcd(a,b)$.
-
-For the set: every combination is a multiple of $g$ (linearity), and every multiple $kg$ is
-the combination $a(kx_0) + b(ky_0)$.
-
-**Justifies:**
-- steps of $\pm a, \pm b$ reach exactly the multiples of $\gcd(a,b)$;
-- $ax + by = c$ is solvable **iff** $\gcd(a,b) \mid c$;
-- every common divisor *divides* the gcd — the property later proofs need.
-
-*This proof is non-constructive: it does not produce $x, y$. That is what the extended
-Euclidean algorithm is for.*
+**In code.** Under 90 iterations for any 64-bit input. The slowest inputs are consecutive
+Fibonacci numbers (there every quotient is $1$, so no step ever removes more than one
+copy) — use those to stress-test.
 
 ---
 
-## 4. Euclid's lemma (G7)
+## 3. Bézout's identity
 
-> $\gcd(a,b) = 1$ and $a \mid bc$ $\Rightarrow$ $a \mid c$. In particular for prime $p$:
-> $p \mid bc \Rightarrow p \mid b$ or $p \mid c$.
+**Claim.** There exist integers $x, y$ with
 
-By Bézout, $ax + by = 1$. Multiply by $c$:
+$$a\,x + b\,y = \gcd(a,b)$$
 
-$$acx + bcy = c$$
+and moreover the set of *all* values $ax + by$ is exactly the set of multiples of
+$\gcd(a,b)$.
 
-$a$ divides $acx$ trivially, and $a \mid bc$ gives $a \mid bcy$. By linearity $a$ divides
-the sum, which is $c$.
+**In words.** The gcd is not only a divisor of $a$ and $b$ — it is **reachable** by adding
+and subtracting copies of them. Nothing smaller and positive is reachable.
 
-For the prime version: if $p \nmid b$ then $\gcd(p,b)$ must be $1$ (the only divisors of
-$p$ are $1$ and $p$), so the first part applies.
+**Proof.** Let $g$ be the **smallest positive** number of the form $ax + by$. (Such numbers
+exist: $a\cdot a + b\cdot b = a^2+b^2 > 0$ is one, and any non-empty set of positive
+integers has a least element.) Write $g = ax_0 + by_0$.
 
-**Justifies:** this is the fix for divisibility's D7 trap. It is also exactly what makes
-prime factorization **unique** — which is why factorization-based algorithms are allowed to
-assume "the" factorization exists.
+**Step 1: $g$ divides $a$.** Divide $a$ by $g$: $a = qg + r$ with $0 \le r < g$. Then
 
----
+$$r = a - qg = a - q(ax_0 + by_0) = a\,(1 - qx_0) + b\,(-qy_0)$$
 
-## 5. Why the lcm formula is exact (G2)
+so $r$ is *also* of the form $ax + by$. If $r > 0$, it would be a positive value of that
+form **smaller than $g$** — contradicting that $g$ is the smallest. So $r = 0$, meaning
+$g \mid a$. The same argument gives $g \mid b$.
 
-> $\gcd(a,b)\cdot\mathrm{lcm}(a,b) = \lvert ab \rvert$
+**Step 2: $g$ is the greatest such divisor.** Let $c$ be any common divisor of $a$ and $b$.
+By linearity, $c$ divides $ax_0 + by_0 = g$. So $c \le g$. Combined with Step 1,
+$g = \gcd(a,b)$.
 
-Let $g = \gcd(a,b)$, $a = ga'$, $b = gb'$ with $\gcd(a',b') = 1$. Set $L = \lvert ab\rvert/g$.
+**Step 3: the set.** Every $ax + by$ is a multiple of $g$ (linearity), and every multiple
+$kg$ equals $a(kx_0) + b(ky_0)$. So the set is exactly the multiples of $g$. $\blacksquare$
 
-- $L$ is a common multiple: $L = \lvert a \rvert \cdot \frac{\lvert b\rvert}{g}$ and
-  $g \mid b$, so $a \mid L$; symmetrically $b \mid L$.
-- $L$ divides every common multiple: if $M = as = bt$ then $a's = b't$, so $b' \mid a's$;
-  since $\gcd(a',b')=1$, Euclid's lemma gives $b' \mid s$, and substituting shows
-  $\frac{ab}{g} \mid M$.
+**The key move.** The remainder of $a$ divided by $g$ is *again* of the form $ax + by$, and
+minimality forces it to be zero.
 
-**Justifies:** `(a / g) * b`. The early division is *exact* because $g \mid a$ — that is
-what makes reordering safe rather than a hack.
+**In code.**
 
----
+- Steps of $\pm a$ and $\pm b$ reach **exactly** the multiples of $\gcd(a,b)$ — jug
+  problems, frog jumps, coin problems.
+- $ax + by = c$ has a solution **if and only if** $\gcd(a,b) \mid c$.
 
-## 6. $\gcd(a^m - 1,\ a^n - 1) = a^{\gcd(m,n)} - 1$ (G8)
-
-Assume $m \geq n$. The key identity:
-
-$$a^m - 1 = a^{m-n}\bigl(a^n - 1\bigr) + \bigl(a^{m-n} - 1\bigr)$$
-
-(expand: $a^m - a^{m-n} + a^{m-n} - 1$ ✓). So $a^{m-n}-1$ is
-$(a^m-1) - q(a^n-1)$ with $q = a^{m-n}$, and by §1:
-
-$$\gcd(a^m-1,\ a^n-1) = \gcd(a^{m-n}-1,\ a^n-1)$$
-
-The exponents just went $(m,n) \to (m-n,\ n)$ — a *subtractive* Euclidean step. Induct
-until one exponent is $0$, where $\gcd(a^m-1, 0) = a^m - 1$ and $\gcd(m,0) = m$.
-
-**Justifies:** `ipow(a, gcd(m, n)) - 1`. A gcd of 300000-digit numbers becomes a gcd of two
-small exponents.
+> This proof shows $x$ and $y$ **exist** without computing them. Computing them is the
+> [extended Euclidean algorithm](../extended-euclidean-algorithm/).
 
 ---
 
-## 7. Binary GCD identities
+## 4. Euclid's lemma
 
-For $u, v > 0$:
+**Claim.** If $\gcd(a,b) = 1$ and $a \mid bc$, then $a \mid c$. In particular, for a prime
+$p$:
 
-| Case | Identity | Why |
-|---|---|---|
-| both even | $\gcd(u,v) = 2\gcd(u/2, v/2)$ | G4 with $c = 2$ |
-| $v$ odd | $\gcd(u,v) = \gcd(u/2, v)$ | $g \mid v$ makes $g$ odd, so $\gcd(g,2)=1$ and Euclid's lemma pushes $g$ into $u/2$ |
-| both odd | $\gcd(u,v) = \gcd(u-v, v)$ | §1 with $q = 1$ |
+$$p \mid b\,c \qquad\Longrightarrow\qquad p \mid b \ \text{ or } \ p \mid c$$
 
-Odd $-$ odd is even, so the third case feeds the second and every iteration removes a bit
-— $O(\log\max)$ iterations.
+**In words.** A number sharing no factor with $b$ can only "get at" the product $bc$
+through $c$.
 
-**Justifies:** the division-free variant. On modern CPUs with fast hardware division, plain
-Euclid is usually just as fast for 64-bit; binary GCD wins for big integers.
+**Proof.** Since $\gcd(a,b) = 1$, Bézout gives integers $x, y$ with
+
+$$a\,x + b\,y = 1$$
+
+Multiply both sides by $c$:
+
+$$a\,c\,x + b\,c\,y = c$$
+
+Now look at the left side. Certainly $a \mid acx$. And we assumed $a \mid bc$, so
+$a \mid bcy$. By linearity $a$ divides their sum — which is $c$. $\blacksquare$
+
+**For the prime version.** Suppose $p \nmid b$. The only positive divisors of $p$ are $1$
+and $p$, so $\gcd(p, b)$ is $1$ or $p$; it cannot be $p$ (that would give $p \mid b$). So
+$\gcd(p,b) = 1$ and the first part applies, yielding $p \mid c$. $\blacksquare$
+
+**Why this matters.** The divisibility concept showed $6 \mid 4\times 9$ while $6$ divides
+neither factor — because $6 = 2\times3$ splits across them. A **prime** cannot split, and
+this proof is exactly why. It is also the reason prime factorization is unique, which every
+factorization-based algorithm silently relies on.
 
 ---
 
-## 8. Facts used without proof
+## 5. Why the lcm formula is exact
 
-Short enough to check yourself, and nothing downstream depends on the argument:
+**Claim.**
 
-- **Associativity** $\gcd(a,b,c) = \gcd(\gcd(a,b),c)$: both sides divide all three and are
-  divisible by every common divisor (§3), so they divide each other.
-- **$\gcd(ca,cb) = \lvert c\rvert\gcd(a,b)$**: scale the whole set of combinations in §3 by $c$.
-- **$\gcd(a/g, b/g) = 1$**: apply the previous line with $c = g$ to $\gcd(a,b) = g$.
-- **Prime-factorization form** ($\min$ of exponents): true, but requires factoring, so it is
-  for proofs only — never an algorithm.
+$$\gcd(a,b)\cdot\mathrm{lcm}(a,b) = |a\,b| \qquad\Longrightarrow\qquad \mathrm{lcm}(a,b) = \frac{|ab|}{\gcd(a,b)}$$
+
+**Proof.** Let $g = \gcd(a,b)$, and write $a = g\,a'$, $b = g\,b'$ where
+$\gcd(a', b') = 1$. Put $L = \frac{|ab|}{g}$.
+
+**$L$ is a common multiple.** Since $g \mid b$, the number $\frac{|b|}{g}$ is an integer,
+and $L = |a| \cdot \frac{|b|}{g}$, so $a \mid L$. Symmetrically $b \mid L$.
+
+**$L$ divides every common multiple.** Let $M$ be any common multiple, say $M = as = bt$.
+Substituting $a = ga'$, $b = gb'$ and cancelling $g$:
+
+$$a'\,s = b'\,t$$
+
+So $b' \mid a's$. Since $\gcd(a',b') = 1$, **Euclid's lemma** gives $b' \mid s$. Write
+$s = b'k$; then
+
+$$M = a\,s = a\,b'\,k = \frac{ab}{g}\,k$$
+
+so $L$ divides $M$.
+
+Being a common multiple that divides all common multiples, $L$ is the least one.
+$\blacksquare$
+
+**In code.** The formula justifies `(a / g) * b`: dividing before multiplying is not a
+hack, it is **exact**, because $g$ divides $a$ by definition. And `a * b / g` overflows on
+inputs whose lcm fits comfortably.

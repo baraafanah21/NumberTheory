@@ -1,163 +1,130 @@
 # Arithmetic and Geometric Progressions
 
-**Use it for:** closed-form sums when $n$ is too big to loop, counting/summing multiples,
-geometric sums under a modulus, complexity analysis, and anything shaped $a^n - 1$.
+A **progression** is a sequence built by repeating one operation.
 
-**Prereq:** none. **Used by:** $\sigma(n)$, Mersenne numbers, sieve complexity, binary
-exponentiation.
-
----
-
-## 1. Formulas
-
-**AP** — constant difference $d$:
-
-$$a_n = a + (n-1)d, \qquad S_n = \frac{n}{2}\bigl(2a + (n-1)d\bigr) = \frac{n}{2}(a_1 + a_n)$$
-
-$$\text{number of terms} = \frac{\text{last} - \text{first}}{d} + 1 \qquad \textbf{(the +1 is the classic bug)}$$
-
-**GP** — constant ratio $r$:
-
-$$a_n = a\,r^{\,n-1}, \qquad S_n = a\,\frac{r^{\,n} - 1}{r - 1} \ \ (r \neq 1), \qquad S_n = na \ \ (r = 1)$$
-
-**The identity that matters most:**
-
-$$a^n - b^n = (a-b)\sum_{i=0}^{n-1}a^i b^{\,n-1-i} \qquad\Longrightarrow\qquad (a-b) \mid (a^n - b^n)$$
-
----
-
-## 2. Facts you actually use
-
-| # | Fact | Where it shows up |
+| Type | Rule | Example |
 |---|---|---|
-| **P1** | $1 + 2 + \cdots + n = \frac{n(n+1)}{2}$ | everywhere; nested-loop complexity |
-| **P2** | Multiples of $d$ in $[1,n]$: $\lfloor n/d\rfloor$ of them, sum $d\frac{k(k+1)}{2}$ | "sum everything divisible by…" |
-| **P3** | $(a-b) \mid (a^n - b^n)$ | $2^n-1$, repunits, $a^n-1$ factoring |
-| **P4** | $d \mid n \Rightarrow (2^d-1) \mid (2^n-1)$; so $n$ composite $\Rightarrow 2^n-1$ composite | Mersenne. **Converse false:** $2^{11}-1 = 23\cdot 89$ |
-| **P5** | $\sigma(p^k) = 1 + p + \cdots + p^k = \frac{p^{k+1}-1}{p-1}$ | divisor sums from a factorization |
-| **P6** | $1 + 2 + 4 + \cdots + 2^k = 2^{k+1}-1 < 2\cdot 2^k$ | amortized doubling; $n + \frac n2 + \frac n4 < 2n$ |
-| **P7** | $S_n$ of an AP is quadratic in $n$ **with no constant term** | recognize an AP from its partial sums |
-| **P8** | Repunit $R_n = \frac{10^n-1}{9}$; $d \mid n \Rightarrow R_d \mid R_n$ | repunit problems |
+| **Arithmetic (AP)** | keep **adding** $d$ | $3,\ 7,\ 11,\ 15,\ 19$ &nbsp; ($d = 4$) |
+| **Geometric (GP)** | keep **multiplying** by $r$ | $3,\ 6,\ 12,\ 24,\ 48$ &nbsp; ($r = 2$) |
 
-**Two complexity sums to recognize instantly:**
+**You need this for:** summing such a sequence *without looping*. When a problem says
+$n \le 10^{18}$, a loop is impossible and a formula must exist.
 
-$$1 + 2 + \cdots + n = \Theta(n^2) \qquad\text{vs}\qquad n + \tfrac n2 + \tfrac n4 + \cdots < 2n = \Theta(n)$$
-
-Telling these apart is often the entire complexity analysis.
+**Before this:** nothing. **After this:** [divisibility](../divisibility/).
 
 ---
 
-## 3. Algorithms
+## Key formulas
 
-| Task | Time | Space |
-|---|---|---|
-| AP term / AP sum | $O(1)$ | $O(1)$ |
-| GP term / GP sum (exact) | $O(\log n)$ | $O(1)$ |
-| $r^{\,n} \bmod m$ | $O(\log n)$ | $O(1)$ |
-| $\sum_{i<n} r^i \bmod m$ | $O(\log^2 n)$ | $O(\log n)$ |
-| detect AP / GP in an array | $O(n)$ | $O(1)$ |
-| sum of multiples in $[L,R]$ | $O(1)$ | $O(1)$ |
+Everywhere below:
 
-### The exact-integer AP sum
+- $a$ = the first term
+- $n$ = how many terms
+- $S_n$ = the sum of those $n$ terms
 
-`n/2 * bracket` truncates when $n$ is odd. But **exactly one of $n$ and $(2a+(n-1)d)$ is
-even** — $2a$ is even, so the bracket has the parity of $(n-1)d$. Test and halve the even
-one:
+### Arithmetic progression (common difference $d$)
+
+$$a_n = a + (n-1)\,d$$
+
+$$S_n \;=\; \frac{n}{2}\Bigl(2a + (n-1)d\Bigr) \;=\; \underbrace{n}_{\text{how many}} \times \underbrace{\frac{a_1 + a_n}{2}}_{\text{average term}}$$
+
+Number of terms from first to last:
+
+$$n \;=\; \frac{\text{last} - \text{first}}{d} \;+\; 1$$
+
+> The $+1$ is the most common bug in this whole topic. $\frac{\text{last}-\text{first}}{d}$
+> counts the **steps**; the number of **terms** is one more.
+
+**Special case worth memorizing:**
+
+$$1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$$
+
+### Geometric progression (common ratio $r$)
+
+$$a_n = a\,r^{\,n-1}$$
+
+$$S_n = a\cdot\frac{r^{\,n} - 1}{r - 1} \quad (r \neq 1), \qquad\qquad S_n = n\,a \quad (r = 1)$$
+
+> The $r = 1$ case is not a technicality — the formula divides by $r-1 = 0$. Constant
+> sequences appear as input all the time, so handle it or crash.
+
+### One identity that keeps coming back
+
+$$\boxed{\,(a - b)\ \big|\ (a^n - b^n)\,}$$
+
+For example $a = 2$, $b = 1$: $\ 1 \mid (2^n - 1)$, and more usefully
+$(2^d - 1) \mid (2^n - 1)$ whenever $d \mid n$.
+
+---
+
+## What you actually implement
+
+Only three things from this topic show up in code.
+
+### 1. AP sum in $O(1)$, kept exact
+
+$S_n = \frac{n(2a+(n-1)d)}{2}$ has a division by $2$. In integer arithmetic that
+truncates — unless you halve the factor that is *actually even*.
+
+**Exactly one of $n$ and $(2a+(n-1)d)$ is even** (proved in [proofs.md](proofs.md) §2), so:
 
 ```cpp
 ll apSum(ll a, ll d, ll n) {
     if (n <= 0) return 0;
     ll bracket = 2*a + (n-1)*d;
-    return (n % 2 == 0) ? (n/2) * bracket : n * (bracket/2);
+    return (n % 2 == 0) ? (n/2) * bracket    // n is even
+                        : n * (bracket/2);   // then the bracket is even
 }
 ```
 
-Exact *and* one bit safer against overflow. `1 + 2 + ... + 1e9` comes out right.
+Exact, and one bit safer against overflow than multiplying first.
 
-### Geometric sum mod $m$, without a modular inverse
+### 2. Sum of multiples — $O(1)$ instead of a loop
 
-**You cannot** use $(r^n-1)\cdot(r-1)^{-1}$: $r-1$ need not be invertible mod $m$ (only
-when $\gcd(r-1,m)=1$). Composite moduli break it. Split the sum instead — with
-$G(n) = 1 + r + \cdots + r^{\,n-1}$:
+The multiples of $d$ in $[1, n]$ are $d, 2d, \dots, kd$ with $k = \lfloor n/d\rfloor$ —
+an AP. So:
 
-$$G(2k) = G(k)\bigl(1 + r^{\,k}\bigr), \qquad G(n) = G(n-1) + r^{\,n-1} \ (n \text{ odd})$$
+$$\text{count} = \Bigl\lfloor \frac{n}{d} \Bigr\rfloor, \qquad
+\text{sum} = d\cdot\frac{k(k+1)}{2}$$
 
-```cpp
-ll geometricSumMod(ll r, ll n, ll mod) {
-    if (n <= 0) return 0;
-    if (n & 1) return (geometricSumMod(r, n-1, mod) + powerMod(r, n-1, mod)) % mod;
-    ll half = geometricSumMod(r, n/2, mod);
-    return mulMod(half, (1 + powerMod(r, n/2, mod)) % mod, mod);
-}
-```
+### 3. Geometric sum modulo $m$ — without dividing
 
-Only `+` and `*`, so it is valid for **any** modulus. $O(\log^2 n)$.
+You **cannot** compute $\frac{r^n-1}{r-1} \bmod m$ in general: dividing under a modulus
+needs $(r-1)^{-1}$, which only exists when $\gcd(r-1, m) = 1$. Split the sum instead.
 
----
+With $G(n) = 1 + r + r^2 + \cdots + r^{\,n-1}$:
 
-## 4. Patterns
+$$G(2k) = G(k)\cdot\bigl(1 + r^{\,k}\bigr), \qquad\qquad G(n) = G(n-1) + r^{\,n-1}\ \ (n\text{ odd})$$
 
-**Huge $n$ + regular sequence = closed form.** If $n \leq 10^{18}$ the problem is telling
-you no loop exists. Find the formula.
-
-**Counting/summing multiples.** $\lfloor n/d\rfloor$ and $d\frac{k(k+1)}{2}$, $O(1)$.
-Combine with inclusion–exclusion: multiples of 3 or 5 = (3) + (5) − (15).
-
-**Anything shaped $a^n - 1$ or $2^n - 1$ or $11\ldots1$.** That is P3 in disguise.
-Before primality-testing $2^n-1$, check whether $n$ is composite (P4) — it settles the
-question for free.
-
-**Prime-power divisor sums.** Once you have $n = \prod p_i^{e_i}$, each factor's
-contribution to $\sigma(n)$ is a GP sum (P5). That is how $\sigma$ is actually computed.
-
-**Recognize an AP from data.** Constant first differences → AP. Constant *second*
-differences → quadratic → by P7 it is the partial-sum sequence of an AP, and you can read
-$d = 2A$, $a_1 = A + B$ straight off $S_n = An^2 + Bn$.
-
-**Telescoping.** If you can write the summand as $f(i+1) - f(i)$, the sum is
-$f(n) - f(0)$. The GP sum proof is exactly this.
-
-**Detect a GP without floating point.** Test $a_{i+1}a_{i-1} = a_i^2$ by cross-multiplying
-(in `__int128` if values are large), and reject zero terms separately — $1, 0, 5$ satisfies
-the equation but is not a GP.
+Only $+$ and $\times$, so it works for **any** modulus. $O(\log^2 n)$.
 
 ---
 
-## 5. Pitfalls
+## Complexity
 
-| # | Mistake | Fix |
-|---|---|---|
-| 1 | Dropping the $+1$ in the term count | steps $+1$ = terms |
-| 2 | Using $a + nd$ for the $n$-th term | it is $a + (n-1)d$ |
-| 3 | Forgetting the $r = 1$ case in the GP sum | division by zero; constant sequences are common input |
-| 4 | `n/2 * (...)` truncating when $n$ is odd | halve the even factor (§3) |
-| 5 | `n * (n+1)` overflowing before the `/2` | divide first, or use `__int128` |
-| 6 | Dividing by $r-1$ under a modulus | use the recursion in §3 |
-| 7 | `std::pow` for integer powers | returns `double`, wrong past $2^{53}$; write binary exponentiation |
-| 8 | Ratios in `double` to detect a GP | cross-multiply in integers |
-| 9 | Negative intermediates before `%` | `((x % m) + m) % m` |
-| 10 | Assuming $2^p-1$ is prime when $p$ is | $2^{11}-1 = 23\cdot89$ |
-
----
-
-## 6. Code
-
-[implementation.cpp](implementation.cpp):
-
-| Function | Purpose |
+| Task | Time |
 |---|---|
-| `apTerm`, `apSum`, `apCount` | AP closed forms, overflow-aware |
-| `gpTerm`, `gpSum` | GP closed forms, `r == 1` handled |
-| `powerMod`, `mulMod` | binary exponentiation, safe for any 63-bit modulus |
-| `geometricSumMod` | division-free, works for composite moduli |
-| `sumOfMultiplesUpTo`, `sumOfMultiplesInRange` | P2 |
-| `isArithmetic`, `isGeometric` | $O(n)$ detection, no floating point |
-| `sigmaPrimePower` | P5 |
-| `mersenneFactorFromExponent` | P4 — a free factor when the exponent is composite |
+| AP term, AP sum, sum of multiples | $O(1)$ |
+| GP term, GP sum, $r^n \bmod m$ | $O(\log n)$ |
+| geometric sum $\bmod\ m$ | $O(\log^2 n)$ |
 
 ---
 
-## 7. Why it works
+## Common mistakes
 
-[proofs.md](proofs.md) — short: the two sum formulas, why the integer AP sum is exact, why
-$(a-b) \mid (a^n-b^n)$, and why the division-free geometric sum recursion is correct.
+| Mistake | Fix |
+|---|---|
+| Forgetting the $+1$ in the term count | steps $+\,1$ = terms |
+| Writing $a + nd$ for the $n$-th term | it is $a + (n-1)d$ |
+| Forgetting the $r = 1$ case of the GP sum | division by zero |
+| `n/2 * (...)` when $n$ is odd | halve the even factor |
+| `n * (n+1)` overflowing before `/2` | divide first |
+| Dividing by $r-1$ under a modulus | use the split above |
+| `std::pow` for integer powers | returns `double`, wrong past $2^{53}$ |
+
+---
+
+## Files
+
+- [proofs.md](proofs.md) — where every formula above comes from.
+- [implementation.cpp](implementation.cpp) — the five functions that matter.

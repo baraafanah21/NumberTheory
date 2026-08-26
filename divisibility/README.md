@@ -1,156 +1,159 @@
 # Divisibility
 
-**Use it for:** enumerating divisors, sieves, perfect-square tests, counting multiples,
-divisibility of numbers too big to parse.
+$a$ **divides** $b$ — written $a \mid b$ — when $b$ is a whole number of copies of $a$:
 
-**Prereq:** none. **Used by:** gcd/Euclid, primes, and essentially everything else.
+$$a \mid b \quad\Longleftrightarrow\quad b = a\,k \ \text{ for some integer } k$$
+
+Notice the definition uses **multiplication**, not division. No fractions appear anywhere.
+In code the test is `b % a == 0`.
+
+**You need this for:** finding divisors, sieves, perfect-square tricks, counting multiples.
+
+**Before this:** nothing. **After this:** [gcd](../gcd-and-euclidean-algorithm/).
 
 ---
 
-## 1. The relation
+## The zero cases
 
-$a \mid b$ means $b = ak$ for some integer $k$. In code: `b % a == 0`.
+These three catch everyone once. All follow straight from $b = ak$:
 
-**Zero rules.** These cause real WAs, so memorize them:
-
-| Case | Value | Reason |
+| Question | Answer | Why |
 |---|---|---|
-| $a \mid 0$ | **true**, every $a$ | $0 = a \cdot 0$ |
-| $0 \mid 0$ | **true** | $0 = 0 \cdot k$ |
-| $0 \mid b$, $b \neq 0$ | **false** | $0 \cdot k$ is always $0$ |
-| `b % 0` | **UB / crash** | guard before dividing |
+| $a \mid 0$ ? | **yes**, for every $a$ | $0 = a \times 0$ |
+| $0 \mid 0$ ? | **yes** | $0 = 0 \times k$ |
+| $0 \mid 5$ ? | **no** | $0 \times k$ is always $0$ |
+
+And `b % 0` is undefined behaviour in C++ — guard it.
 
 ---
 
-## 2. Facts you actually use
+## The four facts
 
-| # | Fact | Where it shows up |
-|---|---|---|
-| **D1** | $d \mid a$ and $d \mid b$ $\Rightarrow$ $d \mid (ax + by)$ | Everywhere. Euclid's step, digit tests |
-| **D2** | Division algorithm: unique $q, r$ with $a = qb + r$, $0 \leq r < \lvert b \rvert$ | Makes `%` well defined; C++ disagrees on signs |
-| **D3** | Divisors pair as $\{d,\ n/d\}$ around $\sqrt n$ | Why enumeration is $O(\sqrt n)$ |
-| **D4** | $\tau(n)$ is odd $\iff$ $n$ is a perfect square | Locker/switch problems, instantly |
-| **D5** | Multiples of $d$ in $[1,n]$: $\lfloor n/d \rfloor$ of them, sum $d\frac{k(k+1)}{2}$ | $O(1)$ instead of a loop |
-| **D6** | $n = \prod p_i^{e_i}$ $\Rightarrow$ $\tau(n) = \prod(e_i+1)$, $\sigma(n) = \prod\frac{p_i^{e_i+1}-1}{p_i-1}$ | When you already have the factorization |
-| **D7** | **Trap:** $d \mid ab$ does **not** give $d \mid a$ or $d \mid b$ | $6 \mid 4\cdot 9$, but $6\nmid 4$, $6 \nmid 9$. Needs $d$ prime |
+### 1. Linearity
 
-**Digit tests** — for numbers arriving as strings:
+$$\text{if } d \mid a \ \text{ and } \ d \mid b, \quad\text{then}\quad d \mid (a\,x + b\,y) \ \text{ for all integers } x, y$$
 
-| Divisor | Test |
-|---|---|
-| $2^j$, $5^j$ | last $j$ digits only |
-| $3$, $9$ | digit sum |
-| $11$ | alternating digit sum |
+Anything dividing two numbers divides every combination of them. This is the single most
+used fact in number theory — the Euclidean algorithm and the digit tests are both just
+this.
+
+### 2. The division algorithm
+
+For any $a$ and any $b \neq 0$ there are **unique** integers $q$ and $r$ with
+
+$$a = q\,b + r, \qquad 0 \le r < |b|$$
+
+$q$ is the quotient, $r$ the remainder. Uniqueness is what makes "*the* remainder"
+meaningful — and what makes `b % a == 0` a valid divisibility test.
+
+> **C++ disagrees on signs.** The mathematical remainder is never negative, but C++ gives
+> `-17 % 5 == -2` (the sign follows the dividend). The true remainder is $3$, since
+> $-17 = (-4)\times 5 + 3$. Fix with `((a % b) + b) % b`.
+
+### 3. Divisors come in pairs
+
+If $d$ divides $n$, then so does $n/d$, and
+
+$$d \times \frac{n}{d} = n \qquad\Longrightarrow\qquad \min\left(d,\ \frac{n}{d}\right) \le \sqrt{n}$$
+
+So one of every pair is at most $\sqrt n$. **This is why you only loop to $\sqrt n$.**
+
+Example, $n = 36$: &nbsp; $1\!\times\!36$, &nbsp; $2\!\times\!18$, &nbsp; $3\!\times\!12$,
+&nbsp; $4\!\times\!9$, &nbsp; $6\!\times\!6$ — checking only $1$ to $6$ finds all nine
+divisors.
+
+### 4. Odd divisor count means perfect square
+
+$$\tau(n) \text{ is odd} \quad\Longleftrightarrow\quad n \text{ is a perfect square}$$
+
+($\tau(n)$ = how many positive divisors $n$ has.) Because divisors pair up, the count is
+even — *unless* some divisor is its own partner, which happens exactly when $d = n/d$, i.e.
+$n = d^2$.
 
 ---
 
-## 3. Algorithms
+## What you actually implement
 
-| Task | Method | Time | Space |
-|---|---|---|---|
-| test $a \mid b$ | `b % a == 0` | $O(1)$ | $O(1)$ |
-| floored div/mod | correct the truncation | $O(1)$ | $O(1)$ |
-| all divisors of $n$ | loop `d <= n/d`, emit $d$ and $n/d$ | $O(\sqrt n)$ | $O(\tau(n))$ |
-| $\tau(n)$, $\sigma(n)$ for one $n$ | same loop, no storage | $O(\sqrt n)$ | $O(1)$ |
-| primality of one $n$ | trial division to $\sqrt n$ | $O(\sqrt n)$ | $O(1)$ |
-| $\tau(m)$, $\sigma(m)$ for **all** $m \leq n$ | multiples sieve | $O(n\log n)$ | $O(n)$ |
-| divisibility of a digit string | digit sum / alternating | $O(\text{len})$ | $O(1)$ |
-
-**Choosing between them:** one query with $n \leq 10^{12}$ → $O(\sqrt n)$. Many queries with
-$n \leq 10^6$ → sieve once, answer in $O(1)$.
-
-**The two loops to know by heart:**
+### All divisors, in $O(\sqrt n)$
 
 ```cpp
-// every divisor of n, O(sqrt n)
-for (ll d = 1; d <= n / d; ++d)          // NOT d*d <= n  (overflow)
+for (ll d = 1; d <= n / d; ++d)          // NOT d*d <= n  -- that overflows
     if (n % d == 0) {
         use(d);
-        if (d != n / d) use(n / d);      // guard the perfect square
+        if (d != n / d) use(n / d);      // guard: don't emit sqrt(n) twice
     }
+```
 
-// tau/sigma for all m <= n, O(n log n)  -- the "iterate over multiples" skeleton
+Same loop counts $\tau(n)$ or sums $\sigma(n)$. Also gives primality: if no
+$d \in [2, \sqrt n]$ divides $n$, then $n$ is prime.
+
+### Everything up to $n$ at once, in $O(n\log n)$
+
+Instead of asking each number for its divisors, let each divisor visit its multiples:
+
+```cpp
 for (int d = 1; d <= n; ++d)
     for (int m = d; m <= n; m += d)
         tau[m] += 1;                     // or sigma[m] += d
 ```
 
-That second skeleton is worth more than anything else in this file. It computes $\tau$,
-$\sigma$, smallest prime factor, Möbius, "count multiples in range", and more — all in
-$O(n\log n)$ because $\sum_d n/d = n H_n$.
+This looks quadratic and is not: the inner loop runs $n/d$ times, and
 
----
+$$\sum_{d=1}^{n}\frac{n}{d} \;=\; n\left(1 + \frac12 + \frac13 + \cdots + \frac1n\right) \;=\; \Theta(n\log n)$$
 
-## 4. Patterns
+**This "iterate over multiples" skeleton is the most reusable idea in the file.**
 
-**Odd divisor count → perfect square.** Any problem about toggling every $k$-th item, or
-about an odd number of divisors, is D4. Cell $m$ is toggled once per divisor, so it ends
-flipped iff $\tau(m)$ is odd iff $m$ is a square. Turns a simulation into $\lfloor\sqrt n\rfloor$.
+### Counting multiples — $O(1)$
 
-**Count multiples, don't iterate them.** "How many numbers in $[1,n]$ are divisible by $d$"
-is $\lfloor n/d \rfloor$, $O(1)$. For a range, $\lfloor R/d \rfloor - \lfloor (L-1)/d \rfloor$.
-Divisible by $a$ **or** $b$ → inclusion–exclusion with $\mathrm{lcm}(a,b)$.
+$$\#\{\text{multiples of } d \text{ in } [1,n]\} = \Bigl\lfloor \frac{n}{d}\Bigr\rfloor$$
 
-**Swap the summation order.** $\sum_{m \leq n}\sum_{d \mid m} f(d)$ becomes
-$\sum_{d \leq n} f(d)\lfloor n/d \rfloor$. Same idea as the sieve skeleton, used
-algebraically — routinely turns $O(n\sqrt n)$ into $O(n \log n)$.
+### Divisibility of numbers too big to parse
 
-**Divisor-block / floor trick.** $\lfloor n/d \rfloor$ takes only $O(\sqrt n)$ distinct
-values. Group equal values into blocks to evaluate $\sum_{d=1}^{n} \lfloor n/d\rfloor$
-in $O(\sqrt n)$ instead of $O(n)$:
+If the input arrives as a $10^5$-digit string, you cannot store it in any integer type.
+You do not have to:
 
-```cpp
-for (ll l = 1, r; l <= n; l = r + 1) {
-    r = n / (n / l);              // largest r with n/r == n/l
-    ans += (r - l + 1) * (n / l); // the whole block at once
-}
-```
-
-**Huge numbers as strings.** Input with $10^5$ digits cannot be parsed. Digit sum handles
-$3$ and $9$, alternating sum handles $11$, last $j$ digits handle $2^j$ and $5^j$.
-
-**"Same remainder" → subtract.** $a \equiv b \pmod d$ iff $d \mid (a-b)$. Eliminates the
-unknown remainder and hands the problem to a gcd.
-
----
-
-## 5. Pitfalls
-
-| # | Mistake | Fix |
-|---|---|---|
-| 1 | `d * d <= n` overflows near $9\cdot10^{18}$ | `d <= n / d` |
-| 2 | Perfect square emitted twice | `if (d != n / d)` |
-| 3 | `-17 % 5 == -2` in C++, used as an index | `((a % b) + b) % b` |
-| 4 | `n % 0` | guard $b \neq 0$ |
-| 5 | `(int)sqrt(n)` off by one near squares | integer-correct it, or use `d <= n/d` |
-| 6 | Divisors come out **unsorted** from the pairing loop | `sort` if order matters |
-| 7 | $\sigma$ overflowing an `int` array | 64-bit accumulator |
-| 8 | Assuming $d \mid ab \Rightarrow d \mid a$ or $d \mid b$ | Only true for prime $d$ (D7) |
-| 9 | Forgetting $a \mid 0$ is true | check the zero table above |
-| 10 | Floating point divisibility (`n/d*d == n` on doubles) | integer `%` only |
-
----
-
-## 6. Code
-
-[implementation.cpp](implementation.cpp) — all of it, compiling and verified:
-
-| Function | Purpose |
+| Divisor | Test |
 |---|---|
-| `divides(a, b)` | zero-safe divisibility test |
-| `floorDiv`, `floorMod` | mathematical (non-truncating) division |
-| `divisionAlgorithm(a, b)` | the unique $(q, r)$ with $0 \leq r < \lvert b \rvert$ |
-| `divisors(n)` | all divisors, sorted, $O(\sqrt n)$ |
-| `countDivisors(n)`, `sumDivisors(n)` | $\tau$, $\sigma$ for one $n$ |
-| `isPerfectSquare(n)` | integer-exact, no `sqrt` rounding bug |
-| `isPrimeTrialDivision(n)` | $O(\sqrt n)$ |
-| `divisorCountSieve(n)`, `divisorSumSieve(n)` | $\tau$, $\sigma$ for all $m \leq n$ |
-| `divisibleBy3/9/11(string)` | digit tests for unparseable numbers |
+| $3$ or $9$ | the **digit sum** has the same divisibility |
+| $11$ | the **alternating** digit sum ($+\,-\,+\,-\,\ldots$ from the right) |
+| $2^j$ or $5^j$ | just the last $j$ digits |
 
 ---
 
-## 7. Why it works
+## Complexity
 
-[proofs.md](proofs.md) — kept short, and only where a proof changes what you write:
-why $\sqrt n$ enumeration is complete, why the sieve is $O(n\log n)$ and not $O(n^2)$,
-why `b % a == 0` is a valid test, why the digit tests are correct, and why D7 fails.
+| Task | Time | Space |
+|---|---|---|
+| test $a \mid b$ | $O(1)$ | $O(1)$ |
+| all divisors of $n$ | $O(\sqrt n)$ | $O(\tau(n))$ |
+| $\tau(n)$, $\sigma(n)$, primality of one $n$ | $O(\sqrt n)$ | $O(1)$ |
+| $\tau(m)$ for **all** $m \le n$ | $O(n\log n)$ | $O(n)$ |
+| digit test on a string | $O(\text{length})$ | $O(1)$ |
+
+**Choosing:** one query with $n \le 10^{12}$ → $O(\sqrt n)$. Many queries with
+$n \le 10^6$ → sieve once, then answer in $O(1)$.
+
+---
+
+## Common mistakes
+
+| Mistake | Fix |
+|---|---|
+| `d * d <= n` overflows | `d <= n / d` |
+| Perfect square counted twice | `if (d != n / d)` |
+| `-17 % 5 == -2` used as an index | `((a % b) + b) % b` |
+| `n % 0` | guard $b \neq 0$ |
+| Divisors come out unsorted from the pair loop | `sort` if order matters |
+| $\sigma$ overflowing an `int` | use 64-bit |
+| Assuming $d \mid ab \Rightarrow d \mid a$ or $d \mid b$ | **false**: $6 \mid 4\times9$ but $6\nmid4$, $6\nmid9$ |
+
+That last one is worth staring at. It only becomes true when $d$ is **prime** — and proving
+that needs the [gcd concept](../gcd-and-euclidean-algorithm/), not this one.
+
+---
+
+## Files
+
+- [proofs.md](proofs.md) — why $\sqrt n$ is enough, why the sieve isn't quadratic, why the
+  digit tests work.
+- [implementation.cpp](implementation.cpp) — the six functions that matter.
