@@ -1,35 +1,41 @@
-# NumberTheory
+# Number Theory
 
-A personal number theory repository, built one concept at a time. Each concept lives in
-its own directory with three files:
+Number theory for programming, built one concept at a time. Each concept is small, proved
+properly, and comes with the code that actually gets used.
 
-- `README.md` — definition, intuition, formulation, properties, examples, algorithm,
-  problem-solving patterns, common mistakes
-- `proofs.md` — rigorous proofs of every stated property
-- `implementation.cpp` — C++17 implementation with time and space complexities
+**Read them in this order** — each one uses the ones before it:
 
-## Concepts
-
-| Concept | Depends on | Key results |
+| # | Concept | What you get from it |
 |---|---|---|
-| [arithmetic-and-geometric-progressions](arithmetic-and-geometric-progressions/) | — | AP/GP sums, $(a-b) \mid (a^n-b^n)$, $\sigma(p^k)$ |
-| [divisibility](divisibility/) | — | division algorithm, $\sqrt n$ divisor pairing, digit tests |
-| [gcd-and-euclidean-algorithm](gcd-and-euclidean-algorithm/) | divisibility, progressions | Euclid's algorithm, Bézout, Euclid's lemma |
-
-## Dependency graph
+| 1 | [Progressions](arithmetic-and-geometric-progressions/) | summing a sequence without looping |
+| 2 | [Divisibility](divisibility/) | divisors in $O(\sqrt n)$, sieves, digit tests |
+| 3 | [GCD and the Euclidean algorithm](gcd-and-euclidean-algorithm/) | gcd, lcm, coprimality, reachability |
+| 4 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | modular inverse, $ax+by=c$, CRT |
 
 ```text
-progressions ─────────────┐
-                          ├──→ gcd & Euclid ──→ (extended Euclid → modular inverse → CRT)
-divisibility ─────────────┘         │
-                                    └──→ Euclid's lemma ──→ unique factorization
+1. progressions ──┐
+                  ├──→ 3. gcd & Euclid ──→ 4. extended Euclid ──→ modular inverse, CRT
+2. divisibility ──┘
 ```
+
+## What is in each folder
+
+- **`README.md`** — the idea in plain language, the formulas with every symbol named, the
+  one or two algorithms you actually implement, and the mistakes that cost you.
+- **`proofs.md`** — why each formula is true. Every proof states the claim, explains it in
+  words, proves it, then says which line of code it justifies.
+- **`implementation.cpp`** — only the functions that matter, with complexities, plus a demo
+  that checks itself.
 
 ## Conventions
 
-- Mathematical notation in the markdown files uses LaTeX (`$…$`, `$$…$$`), which renders
-  on GitHub and in the VS Code markdown preview (`Ctrl+Shift+V`).
-- When a concept borrows a result it does not prove, the borrowing is stated explicitly
-  and linked, never assumed silently.
-- Every `implementation.cpp` compiles clean under `g++ -std=c++17 -Wall -Wextra` and its
-  demo output is verified.
+- Maths is written in LaTeX, so it renders on GitHub and in the VS Code preview
+  (`Ctrl+Shift+V`).
+- When a concept uses a result it does not prove, it says so and links to where it *is*
+  proved.
+- Every `implementation.cpp` compiles clean under `g++ -std=c++17 -Wall -Wextra`, and its
+  demo verifies its own output against brute force.
+
+```sh
+g++ -std=c++17 -O2 -o demo divisibility/implementation.cpp && ./demo
+```
