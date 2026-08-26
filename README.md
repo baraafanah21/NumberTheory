@@ -1,7 +1,7 @@
-# Number Theory
-
-Number theory for programming, built one concept at a time. Each concept is small, proved
-properly, and comes with the code that actually gets used.
+# NumberTheory
+Recently, I wasted a lot of time jumping between books and resources. To help you avoid the same mistake, here’s my condensed path with extra details you can skip if needed.
+A personal number theory repository, built one concept at a time. Each concept lives in
+its own directory with three files:
 
 **Read them in this order** — each one uses the ones before it:
 
