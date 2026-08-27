@@ -24,6 +24,21 @@ ll gcd(ll a, ll b) {
     return a;
 }
 
+// The same algorithm written the way the formula reads:
+//
+//     gcd(a, 0) = |a|                 <- the base case, when nothing is left over
+//     gcd(a, b) = gcd(b, a mod b)     <- the recursive step
+//
+// Identical behaviour and identical speed. Use whichever you find clearer; the loop
+// avoids function calls, this one matches the maths line for line.
+//
+// The recursion depth is only O(log min(a,b)) -- under 90 frames for any 64-bit input --
+// so there is no stack risk here.
+ll gcdRecursive(ll a, ll b) {
+    if (b == 0) return a < 0 ? -a : a;
+    return gcdRecursive(b, a % b);
+}
+
 // lcm(a, b) = |a*b| / gcd(a, b).
 //
 // Written as (a/g)*b, NOT (a*b)/g. The two are equal mathematically, but a*b overflows
@@ -105,7 +120,7 @@ int main() {
               << ", so 8 is reachable and 9 is not\n";
 
     // Self-check against a slow but obviously correct method.
-    bool ok = true;
+    bool ok = true, sameAsRecursive = true;
     for (ll a = 1; a <= 200; ++a)
         for (ll b = 1; b <= 200; ++b) {
             ll best = 1;
@@ -113,8 +128,10 @@ int main() {
                 if (a % d == 0 && b % d == 0) best = d;
             if (gcd(a, b) != best) ok = false;
             if (lcm(a, b) != a / best * b) ok = false;
+            if (gcdRecursive(a, b) != gcd(a, b)) sameAsRecursive = false;
         }
     std::cout << "\nself-check: gcd and lcm match brute force for all pairs 1..200: "
-              << (ok ? "ok" : "FAIL") << "\n";
+              << (ok ? "ok" : "FAIL") << ", loop == recursion: "
+              << (sameAsRecursive ? "ok" : "FAIL") << "\n";
     return 0;
 }

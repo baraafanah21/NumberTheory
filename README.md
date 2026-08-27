@@ -1,7 +1,7 @@
 # NumberTheory
 Recently, I wasted a lot of time jumping between books and resources. To help you avoid the same mistake, here’s my condensed path with extra details you can skip if needed.
-A personal number theory repository, built one concept at a time. Each concept lives in
-its own directory with three files:
+A personal number theory repository, built one concept at a time — each one small, proved
+properly, and paired with the code that actually gets used.
 
 **Read them in this order** — each one uses the ones before it:
 
@@ -10,12 +10,14 @@ its own directory with three files:
 | 1 | [Progressions](arithmetic-and-geometric-progressions/) | summing a sequence without looping |
 | 2 | [Divisibility](divisibility/) | divisors in $O(\sqrt n)$, sieves, digit tests |
 | 3 | [GCD and the Euclidean algorithm](gcd-and-euclidean-algorithm/) | gcd, lcm, coprimality, reachability |
-| 4 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | modular inverse, $ax+by=c$, CRT |
+| 4 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | Bézout coefficients, $ax+by=c$, CRT |
+| 5 | [Modular multiplicative inverse](modular-multiplicative-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
 
 ```text
 1. progressions ──┐
-                  ├──→ 3. gcd & Euclid ──→ 4. extended Euclid ──→ modular inverse, CRT
-2. divisibility ──┘
+                  ├──→ 3. gcd & Euclid ──→ 4. extended Euclid ──→ 5. modular inverse
+2. divisibility ──┘                                 │
+                                                    └──→ CRT
 ```
 
 ## What is in each folder
