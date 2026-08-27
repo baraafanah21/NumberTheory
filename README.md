@@ -12,12 +12,14 @@ properly, and paired with the code that actually gets used.
 | 3 | [GCD and the Euclidean algorithm](gcd-and-euclidean-algorithm/) | gcd, lcm, coprimality, reachability |
 | 4 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | Bézout coefficients, $ax+by=c$, CRT |
 | 5 | [Modular multiplicative inverse](modular-multiplicative-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
+| 6 | [Sieve of Eratosthenes](sieve-of-eratosthenes/) | all primes up to $n$, fast factorization |
 
 ```text
 1. progressions ──┐
                   ├──→ 3. gcd & Euclid ──→ 4. extended Euclid ──→ 5. modular inverse
-2. divisibility ──┘                                 │
-                                                    └──→ CRT
+2. divisibility ──┤                                 │
+                  │                                 └──→ CRT
+                  └──→ 6. sieve of Eratosthenes
 ```
 
 ## What is in each folder
