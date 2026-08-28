@@ -13,13 +13,14 @@ properly, and paired with the code that actually gets used.
 | 4 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | Bézout coefficients, $ax+by=c$, CRT |
 | 5 | [Modular multiplicative inverse](modular-multiplicative-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
 | 6 | [Sieve of Eratosthenes](sieve-of-eratosthenes/) | all primes up to $n$, fast factorization |
+| 7 | [Euler's totient function](euler-totient-function/) | inverses for any modulus, huge exponents |
 
 ```text
 1. progressions ──┐
                   ├──→ 3. gcd & Euclid ──→ 4. extended Euclid ──→ 5. modular inverse
-2. divisibility ──┤                                 │
-                  │                                 └──→ CRT
-                  └──→ 6. sieve of Eratosthenes
+2. divisibility ──┤                                 │                     │
+                  │                                 └──→ CRT ─────┐       │
+                  └──→ 6. sieve ────────────────────────────────→ 7. Euler's totient
 ```
 
 ## What is in each folder
