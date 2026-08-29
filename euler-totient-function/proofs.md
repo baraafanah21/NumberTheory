@@ -8,7 +8,8 @@ Five results. Each one: the claim, what it means, the proof, and why it matters 
   $\gcd(a,b) = 1$ and $a \mid bc$ then $a \mid c$.
 - **CRT** ([extended Euclid](../extended-euclidean-algorithm/proofs.md)) — for coprime
   $m, n$, a number mod $mn$ is determined by its pair of residues mod $m$ and mod $n$.
-- **Unique factorization** — cited, as elsewhere in this repo.
+- **Unique factorization** ([unique factorization](../unique-factorization/proofs.md)) —
+  every $n > 1$ factors into primes in exactly one way.
 
 ---
 
