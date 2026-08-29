@@ -153,6 +153,9 @@ after dividing it out the table entry for the new value gives the next smallest 
 factor. Since we always remove the smallest, the primes come out in increasing order and
 none is missed. $\blacksquare$
 
+That this is *the* factorization, and not merely *a* factorization, is
+[unique factorization](../unique-factorization/proofs.md) §2.
+
 **In code.** For $m \le 10^7$ this is about $23$ operations worst case, versus $\sqrt m
 \approx 3000$ for trial division. If you are going to factorize many numbers in a range,
 building the `spf` table first is almost always the right move.
