@@ -10,18 +10,24 @@ properly, and paired with the code that actually gets used.
 | 1 | [Progressions](arithmetic-and-geometric-progressions/) | summing a sequence without looping |
 | 2 | [Divisibility](divisibility/) | divisors in $O(\sqrt n)$, sieves, digit tests |
 | 3 | [GCD and the Euclidean algorithm](gcd-and-euclidean-algorithm/) | gcd, lcm, coprimality, reachability |
-| 4 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | Bézout coefficients, $ax+by=c$, CRT |
-| 5 | [Modular multiplicative inverse](modular-multiplicative-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
-| 6 | [Sieve of Eratosthenes](sieve-of-eratosthenes/) | all primes up to $n$, fast factorization |
-| 7 | [Euler's totient function](euler-totient-function/) | inverses for any modulus, huge exponents |
+| 4 | [Unique factorization](unique-factorization/) | why prime factorization is *the* factorization |
+| 5 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | Bézout coefficients, $ax+by=c$, CRT |
+| 6 | [Modular multiplicative inverse](modular-multiplicative-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
+| 7 | [Sieve of Eratosthenes](sieve-of-eratosthenes/) | all primes up to $n$, fast factorization |
+| 8 | [Euler's totient function](euler-totient-function/) | inverses for any modulus, huge exponents |
 
 ```text
 1. progressions ──┐
-                  ├──→ 3. gcd & Euclid ──→ 4. extended Euclid ──→ 5. modular inverse
-2. divisibility ──┤                                 │                     │
-                  │                                 └──→ CRT ─────┐       │
-                  └──→ 6. sieve ────────────────────────────────→ 7. Euler's totient
+                  │                     ┌──→ 4. unique factorization ──┐
+2. divisibility ──┼──→ 3. gcd & Euclid ─┤                              │
+                  │                     └──→ 5. extended Euclid ──→ 6. modular inverse
+                  │                                    │                 │
+                  │                                    └──→ CRT          │
+                  └──→ 7. sieve ───────────────────────────────────→ 8. Euler's totient
 ```
+
+Concept 3 proves **Euclid's lemma**, which is what makes concept 4 true — and concept 4 is
+what makes the formulas in 7 and 8 well defined.
 
 ## What is in each folder
 
