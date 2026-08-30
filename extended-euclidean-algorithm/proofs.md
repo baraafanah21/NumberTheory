@@ -1,6 +1,6 @@
 # Proofs — Extended Euclidean Algorithm
 
-Three results. Each one: the claim, what it means, the proof, and why it matters in code.
+Two results. Each one: the claim, what it means, the proof, and why it matters in code.
 
 **Borrowed from earlier concepts:**
 
@@ -101,43 +101,6 @@ $\blacksquare$
 
 ---
 
-## 3. When two congruences can be merged (CRT)
-
-**Claim.** The system
-
-$$x \equiv a_1 \pmod{m_1}, \qquad x \equiv a_2 \pmod{m_2}$$
-
-has a solution $\iff\ g = \gcd(m_1,m_2)$ divides $(a_2 - a_1)$. The solution is then unique
-modulo $\mathrm{lcm}(m_1, m_2)$.
-
-**In words.** The two congruences must agree on the information they share. If they
-disagree there, no number can satisfy both.
-
-**Proof.** Every solution of the first congruence looks like
-
-$$x = a_1 + m_1\,t$$
-
-for some integer $t$. Substituting into the second:
-
-$$a_1 + m_1 t \equiv a_2 \pmod{m_2} \qquad\Longleftrightarrow\qquad m_1\,t \equiv a_2 - a_1 \pmod{m_2}$$
-
-That is the equation $m_1 t + m_2 s = a_2 - a_1$, so by §2 it is solvable exactly when
-$g = \gcd(m_1,m_2)$ divides $a_2 - a_1$ — which is the stated condition.
-
-When it holds, §2 also tells us $t$ is determined modulo $\frac{m_2}{g}$. Therefore
-$x = a_1 + m_1 t$ is determined modulo
-
-$$m_1 \cdot \frac{m_2}{g} = \mathrm{lcm}(m_1, m_2) \qquad \blacksquare$$
-
-**A concrete failure.** $x \equiv 1 \pmod 6$ and $x \equiv 2 \pmod 8$. Here $g = 2$ and
-$a_2 - a_1 = 1$, which $2$ does not divide. And indeed the first congruence forces $x$
-odd while the second forces $x$ even. **No solution** — skipping this check is a real bug,
-not a theoretical one.
-
-**In code.**
-
-- the `if ((a2 - a1) % g != 0) return NO_SOLUTION;` guard;
-- the merged modulus is $\mathrm{lcm}$, not the product — using the product is wrong
-  whenever the moduli share a factor;
-- fold many congruences by merging pairwise. Watch for overflow: $\mathrm{lcm}$ grows fast,
-  and ten moduli near $10^9$ will exceed 64 bits.
+**Where the third use went.** Combining congruences (the Chinese remainder theorem) is
+built on §2 but is a topic of its own — see
+[chinese-remainder-theorem](../chinese-remainder-theorem/proofs.md).
