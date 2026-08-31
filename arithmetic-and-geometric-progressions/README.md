@@ -1,130 +1,81 @@
-# Arithmetic and Geometric Progressions
+# Progressions
 
-A **progression** is a sequence built by repeating one operation.
+A sequence built by repeating one operation: **add** $d$ each step (arithmetic) or
+**multiply** by $r$ each step (geometric).
 
-| Type | Rule | Example |
-|---|---|---|
-| **Arithmetic (AP)** | keep **adding** $d$ | $3,\ 7,\ 11,\ 15,\ 19$ &nbsp; ($d = 4$) |
-| **Geometric (GP)** | keep **multiplying** by $r$ | $3,\ 6,\ 12,\ 24,\ 48$ &nbsp; ($r = 2$) |
+$$3,\ 7,\ 11,\ 15 \quad (d=4) \qquad\qquad 3,\ 6,\ 12,\ 24 \quad (r=2)$$
 
-**You need this for:** summing such a sequence *without looping*. When a problem says
-$n \le 10^{18}$, a loop is impossible and a formula must exist.
-
-**Before this:** nothing. **After this:** [divisibility](../divisibility/).
+**Use:** summing a sequence when $n$ is too large to loop. **Next:**
+[divisibility](../divisibility/)
 
 ---
 
 ## Key formulas
 
-Everywhere below:
+$a$ = first term, $n$ = number of terms, $S_n$ = sum of the first $n$.
 
-- $a$ = the first term
-- $n$ = how many terms
-- $S_n$ = the sum of those $n$ terms
+| | Arithmetic | Geometric |
+|---|---|---|
+| $n$-th term | $a + (n-1)d$ | $a\,r^{\,n-1}$ |
+| sum $S_n$ | $\dfrac{n}{2}\bigl(2a + (n-1)d\bigr)$ | $a\dfrac{r^{\,n}-1}{r-1}$ &nbsp;($r\neq1$), else $na$ |
 
-### Arithmetic progression (common difference $d$)
+$$\text{number of terms} = \frac{\text{last}-\text{first}}{d} + 1
+\qquad\qquad 1+2+\cdots+n = \frac{n(n+1)}{2}$$
 
-$$a_n = a + (n-1)\,d$$
+**The identity that keeps reappearing:**
 
-$$S_n \;=\; \frac{n}{2}\Bigl(2a + (n-1)d\Bigr) \;=\; \underbrace{n}_{\text{how many}} \times \underbrace{\frac{a_1 + a_n}{2}}_{\text{average term}}$$
+$$\boxed{\ (a-b) \ \big|\ (a^n - b^n)\ }$$
 
-Number of terms from first to last:
-
-$$n \;=\; \frac{\text{last} - \text{first}}{d} \;+\; 1$$
-
-> The $+1$ is the most common bug in this whole topic. $\frac{\text{last}-\text{first}}{d}$
-> counts the **steps**; the number of **terms** is one more.
-
-**Special case worth memorizing:**
-
-$$1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$$
-
-### Geometric progression (common ratio $r$)
-
-$$a_n = a\,r^{\,n-1}$$
-
-$$S_n = a\cdot\frac{r^{\,n} - 1}{r - 1} \quad (r \neq 1), \qquad\qquad S_n = n\,a \quad (r = 1)$$
-
-> The $r = 1$ case is not a technicality — the formula divides by $r-1 = 0$. Constant
-> sequences appear as input all the time, so handle it or crash.
-
-### One identity that keeps coming back
-
-$$\boxed{\,(a - b)\ \big|\ (a^n - b^n)\,}$$
-
-For example $a = 2$, $b = 1$: $\ 1 \mid (2^n - 1)$, and more usefully
-$(2^d - 1) \mid (2^n - 1)$ whenever $d \mid n$.
+so $(2^d-1) \mid (2^n-1)$ whenever $d \mid n$ — a composite exponent makes $2^n-1$
+composite.
 
 ---
 
-## What you actually implement
+## What you implement
 
-Only three things from this topic show up in code.
-
-### 1. AP sum in $O(1)$, kept exact
-
-$S_n = \frac{n(2a+(n-1)d)}{2}$ has a division by $2$. In integer arithmetic that
-truncates — unless you halve the factor that is *actually even*.
-
-**Exactly one of $n$ and $(2a+(n-1)d)$ is even** (proved in [proofs.md](proofs.md) §2), so:
+**AP sum, kept exact.** Exactly one of $n$ and $(2a+(n-1)d)$ is even, so halve *that* one:
 
 ```cpp
 ll apSum(ll a, ll d, ll n) {
-    if (n <= 0) return 0;
     ll bracket = 2*a + (n-1)*d;
-    return (n % 2 == 0) ? (n/2) * bracket    // n is even
-                        : n * (bracket/2);   // then the bracket is even
+    return (n % 2 == 0) ? (n/2) * bracket : n * (bracket/2);
 }
 ```
 
-Exact, and one bit safer against overflow than multiplying first.
+**Sum of multiples of $d$ up to $n$** — an AP, so $O(1)$ with $k = \lfloor n/d\rfloor$:
 
-### 2. Sum of multiples — $O(1)$ instead of a loop
+$$\text{count} = k, \qquad \text{sum} = d\,\frac{k(k+1)}{2}$$
 
-The multiples of $d$ in $[1, n]$ are $d, 2d, \dots, kd$ with $k = \lfloor n/d\rfloor$ —
-an AP. So:
+**Geometric sum mod $m$ — without dividing.** $\frac{r^n-1}{r-1}$ needs $(r-1)^{-1}$, which
+exists only when $\gcd(r-1,m)=1$. Split instead, with $G(n) = 1+r+\cdots+r^{\,n-1}$:
 
-$$\text{count} = \Bigl\lfloor \frac{n}{d} \Bigr\rfloor, \qquad
-\text{sum} = d\cdot\frac{k(k+1)}{2}$$
+$$G(2k) = G(k)\bigl(1+r^{\,k}\bigr), \qquad G(n) = G(n-1) + r^{\,n-1}\ (n \text{ odd})$$
 
-### 3. Geometric sum modulo $m$ — without dividing
-
-You **cannot** compute $\frac{r^n-1}{r-1} \bmod m$ in general: dividing under a modulus
-needs $(r-1)^{-1}$, which only exists when $\gcd(r-1, m) = 1$. Split the sum instead.
-
-With $G(n) = 1 + r + r^2 + \cdots + r^{\,n-1}$:
-
-$$G(2k) = G(k)\cdot\bigl(1 + r^{\,k}\bigr), \qquad\qquad G(n) = G(n-1) + r^{\,n-1}\ \ (n\text{ odd})$$
-
-Only $+$ and $\times$, so it works for **any** modulus. $O(\log^2 n)$.
+Only $+$ and $\times$, so it is valid for **any** modulus.
 
 ---
 
 ## Complexity
 
-| Task | Time |
-|---|---|
 | AP term, AP sum, sum of multiples | $O(1)$ |
-| GP term, GP sum, $r^n \bmod m$ | $O(\log n)$ |
+|---|---|
+| GP sum, $r^n \bmod m$ | $O(\log n)$ |
 | geometric sum $\bmod\ m$ | $O(\log^2 n)$ |
 
 ---
 
-## Common mistakes
+## Pitfalls
 
-| Mistake | Fix |
+| | |
 |---|---|
-| Forgetting the $+1$ in the term count | steps $+\,1$ = terms |
-| Writing $a + nd$ for the $n$-th term | it is $a + (n-1)d$ |
-| Forgetting the $r = 1$ case of the GP sum | division by zero |
-| `n/2 * (...)` when $n$ is odd | halve the even factor |
-| `n * (n+1)` overflowing before `/2` | divide first |
-| Dividing by $r-1$ under a modulus | use the split above |
+| dropping the $+1$ in the term count | steps $+1$ = terms |
+| $a+nd$ for the $n$-th term | it is $a+(n-1)d$ |
+| forgetting $r=1$ in the GP sum | division by zero |
+| `n/2 * (...)` with odd $n$ | halve the even factor |
+| `n*(n+1)` overflowing before `/2` | divide first |
+| dividing by $r-1$ under a modulus | use the split above |
 | `std::pow` for integer powers | returns `double`, wrong past $2^{53}$ |
 
 ---
 
-## Files
-
-- [proofs.md](proofs.md) — where every formula above comes from.
-- [implementation.cpp](implementation.cpp) — the five functions that matter.
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
