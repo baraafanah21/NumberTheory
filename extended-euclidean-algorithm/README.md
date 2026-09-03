@@ -1,24 +1,19 @@
 # Extended Euclidean Algorithm
 
-The [gcd concept](../gcd-and-euclidean-algorithm/) proved that integers $x, y$ exist with
+[Bézout](../gcd-and-euclidean-algorithm/) says integers $x,y$ exist with
+$ax+by = \gcd(a,b)$, but never produces them. This does.
 
-$$a\,x + b\,y = \gcd(a,b)$$
-
-but never produced them. This algorithm produces them. Those two numbers — the **Bézout
-coefficients** — are what turn "a solution exists" into an actual answer.
-
-**You need this for:** solving $ax + by = c$ in integers, the Chinese Remainder Theorem,
-and (next concept) modular inverses.
-
-**Before this:** [gcd](../gcd-and-euclidean-algorithm/). **After this:**
-[modular multiplicative inverse](../modular-multiplicative-inverse/).
+**Use:** solving $ax+by=c$; and it is the engine under
+[modular inverse](../modular-multiplicative-inverse/) and
+[CRT](../chinese-remainder-theorem/). **Needs:**
+[gcd](../gcd-and-euclidean-algorithm/)
 
 ---
 
 ## The algorithm
 
 ```cpp
-// returns g = gcd(a,b), and sets x, y so that a*x + b*y == g
+// returns g = gcd(a,b), sets x,y with a*x + b*y == g
 ll extgcd(ll a, ll b, ll &x, ll &y) {
     if (b == 0) { x = 1; y = 0; return a; }    // a*1 + 0*0 = a
     ll x1, y1;
@@ -29,81 +24,58 @@ ll extgcd(ll a, ll b, ll &x, ll &y) {
 }
 ```
 
-It is the ordinary Euclidean algorithm with the coefficients carried back up the recursion.
+Ordinary Euclid with the coefficients carried back up. **Derive the two update lines
+rather than memorizing them** — the recursive call gives
+$b\,x_1 + (a \bmod b)\,y_1 = g$, and substituting $a \bmod b = a - \lfloor a/b\rfloor b$
+regroups to
 
-**Where those two update lines come from.** The recursive call hands back
+$$a\,y_1 + b\Bigl(x_1 - \Bigl\lfloor\tfrac ab\Bigr\rfloor y_1\Bigr) = g$$
 
-$$b\,x_1 + (a \bmod b)\,y_1 = g$$
+so $x = y_1$ and $y = x_1 - \lfloor a/b\rfloor y_1$. Ten seconds, and you never mix up
+which coefficient gets the quotient.
 
-Replace $a \bmod b$ with $a - \lfloor a/b\rfloor\,b$ and regroup by $a$ and $b$:
+$O(\log\min(a,b))$. The coefficients stay small, so nothing overflows inside.
 
-$$a\,y_1 \;+\; b\Bigl(x_1 - \Bigl\lfloor\tfrac{a}{b}\Bigr\rfloor y_1\Bigr) \;=\; g$$
-
-Reading off the coefficients gives $x = y_1$ and $y = x_1 - \lfloor a/b\rfloor\,y_1$.
-**Re-derive this rather than memorizing it** — it takes ten seconds, and you will not mix
-up which coefficient gets the quotient.
-
-$O(\log\min(a,b))$, same speed as ordinary gcd. The coefficients stay small, so nothing
-overflows inside the function.
-
-**Example.** $\gcd(240, 46) = 2$, and the algorithm returns $x = -9$, $y = 47$:
-
-$$240\times(-9) + 46\times 47 = -2160 + 2162 = 2 \quad\checkmark$$
-
-Note $x$ came back **negative** — that is normal, and it matters when you use the result.
+**Example.** $\gcd(240,46) = 2$ with $x=-9$, $y=47$: $\ 240(-9) + 46(47) = 2$ ✓ — note
+$x$ came back **negative**, which is normal and matters when you use it.
 
 ---
 
-## Use 1: solving $ax + by = c$ in integers
+## Solving $ax + by = c$
 
-$$\text{solvable} \quad\Longleftrightarrow\quad \gcd(a,b) \mid c$$
+$$\text{solvable} \iff \gcd(a,b) \mid c$$
 
-If it is solvable, run `extgcd` to get a solution of $ax + by = g$, then **multiply both
-coefficients by $c/g$**. All other solutions are
+Run `extgcd` for $ax+by=g$, then **scale both coefficients by $c/g$**. All solutions:
 
-$$x = x_0 + k\cdot\frac{b}{g}, \qquad y = y_0 - k\cdot\frac{a}{g}, \qquad k \in \mathbb{Z}$$
+$$x = x_0 + k\cdot\frac{b}{g}, \qquad y = y_0 - k\cdot\frac{a}{g}$$
 
-> The steps are $\frac bg$ and $\frac ag$ — **not** $b$ and $a$. When $g > 1$, stepping by
-> $b$ skips $g-1$ out of every $g$ solutions, which quietly breaks "find the smallest
-> non-negative $x$".
+> The steps are $\frac bg$ and $\frac ag$, **not** $b$ and $a$. With $g>1$, stepping by $b$
+> skips $g-1$ of every $g$ solutions — which silently breaks "smallest non-negative $x$".
 
-**Example.** $6x + 10y = 8$. Here $g = 2$ and $2 \mid 8$, so it is solvable: $x = 8$,
-$y = -4$. Other solutions step by $\frac{10}{2} = 5$ in $x$ and $\frac{6}{2} = 3$ in $y$ —
-so $x = 3, y = -1$ also works. But $6x + 10y = 9$ has **no** solution, since $2 \nmid 9$.
+**Example.** $6x+10y=8$: here $g=2 \mid 8$, so $x=8,\ y=-4$; stepping by $5$ and $3$ gives
+$x=3,\ y=-1$ too. But $6x+10y=9$ has **no** solution, since $2 \nmid 9$.
 
-This is the same statement as *"with steps of size $a$ and $b$ you can reach exactly the
-multiples of $\gcd(a,b)$"* — except now you also learn **how many** of each step to take.
+Same statement as "steps of $a$ and $b$ reach exactly the multiples of $\gcd(a,b)$" —
+except now you learn *how many* of each step.
 
 ---
 
 ## Complexity
 
-| Task | Time |
+| `extgcd`, solving $ax+by=c$ | $O(\log\min(a,b))$ |
 |---|---|
-| `extgcd` | $O(\log\min(a,b))$ |
-| solving $ax+by=c$ | $O(\log\min(a,b))$ |
 
 ---
 
-## Common mistakes
+## Pitfalls
 
-| Mistake | Fix |
+| | |
 |---|---|
-| Using $x$ as returned — it can be negative | normalize when the context needs it |
-| Forgetting to scale by $c/g$ | you solved $= g$, not $= c$ |
-| Stepping by $b$ instead of $b/g$ | you skip solutions |
-| Assuming $ax+by=c$ is always solvable | needs $\gcd(a,b) \mid c$ |
+| using $x$ as returned — it can be negative | normalize when the context needs it |
+| forgetting to scale by $c/g$ | you solved $=g$, not $=c$ |
+| stepping by $b$ instead of $b/g$ | you skip solutions |
+| assuming $ax+by=c$ is always solvable | needs $\gcd(a,b) \mid c$ |
 
 ---
 
-## Files
-
-- [proofs.md](proofs.md) — why the recursion is correct, and where the solution family
-  comes from.
-- [implementation.cpp](implementation.cpp) — two functions.
-
-**What `extgcd` unlocks.** Two concepts are built directly on it:
-
-- [modular multiplicative inverse](../modular-multiplicative-inverse/) — dividing under a
-  modulus;
-- [Chinese remainder theorem](../chinese-remainder-theorem/) — combining congruences.
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
