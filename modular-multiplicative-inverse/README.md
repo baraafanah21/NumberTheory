@@ -1,162 +1,119 @@
 # Modular Multiplicative Inverse
 
-The **inverse of $a$ modulo $m$** is the number $a^{-1}$ satisfying
-
 $$a \cdot a^{-1} \equiv 1 \pmod m$$
 
-It is the modular version of "one over $a$" — and it is the **only** way to divide under a
-modulus.
+The modular version of "one over $a$" — and the **only** way to divide under a modulus.
 
-**You need this for:** any fraction in a problem answered mod $10^9+7$ — binomial
-coefficients, probabilities, averages, geometric sums.
-
-**Before this:** [extended Euclid](../extended-euclidean-algorithm/).
+**Use:** any fraction in a problem answered mod $10^9+7$ — binomials, probabilities,
+averages. **Needs:** [extended Euclid](../extended-euclidean-algorithm/) **Next:**
+[CRT](../chinese-remainder-theorem/)
 
 ---
 
-## Why you need it at all
+## Why you need it
 
-Under a modulus, addition, subtraction and multiplication behave normally. **Division does
-not.** You cannot write `(a / b) % m` — integer division throws away the remainder and the
-answer is simply wrong.
+Addition, subtraction and multiplication behave normally under a modulus. **Division does
+not** — `(a / b) % m` throws away the remainder and is simply wrong. Instead:
 
-Instead, division becomes multiplication by the inverse:
+$$\frac ab \bmod m \quad\Longrightarrow\quad a \cdot b^{-1} \bmod m$$
 
-$$\frac{a}{b} \bmod m \quad\Longrightarrow\quad a \cdot b^{-1} \bmod m$$
-
-**Example.** Compute $\frac{7}{3} \bmod 11$. Since $3 \times 4 = 12 \equiv 1$, we have
-$3^{-1} = 4$. So
-
-$$\frac{7}{3} \equiv 7 \times 4 = 28 \equiv 6 \pmod{11}$$
-
-Check: $3 \times 6 = 18 \equiv 7 \pmod{11}$ ✓ — exactly what "$7$ divided by $3$" should
-mean.
+**Example.** $\frac73 \bmod 11$: since $3\times4 = 12 \equiv 1$, we have $3^{-1} = 4$, so
+$\frac73 \equiv 28 \equiv 6$. Check: $3\times6 = 18 \equiv 7$ ✓ — exactly what "7 divided
+by 3" should mean.
 
 ---
 
-## When does it exist?
+## When it exists
 
-$$\boxed{\ a^{-1} \bmod m \ \text{ exists} \quad\Longleftrightarrow\quad \gcd(a,\ m) = 1\ }$$
+$$\boxed{\ a^{-1} \bmod m \ \text{ exists} \iff \gcd(a,m) = 1\ }$$
 
-and when it exists it is **unique** modulo $m$.
+and it is then unique mod $m$. Because $ax \equiv 1$ is $ax + my = 1$, and Bézout makes
+that solvable only when $\gcd(a,m)$ divides $1$.
 
-Why: $ax \equiv 1 \pmod m$ is the same as $ax + my = 1$, and Bézout says the values
-$ax + my$ are exactly the multiples of $\gcd(a,m)$. So $1$ is reachable only when that gcd
-is $1$.
-
-**Two consequences to keep in mind:**
-
-- Modulo a **prime** $p$, every value $1, 2, \dots, p-1$ has an inverse — nothing below $p$
-  shares a factor with it. This is why $10^9+7$ is chosen as a modulus.
-- Modulo a **composite**, most values do not. $2$ has no inverse mod $6$: the multiples of
-  $2$ are $2, 4, 0, 2, 4, 0, \ldots$ and never hit $1$.
+- Modulo a **prime** $p$, every $1,\dots,p-1$ has an inverse — which is why $10^9+7$ is
+  the standard modulus.
+- Modulo a **composite**, most do not. Mod $6$ the multiples of $2$ run
+  $2,4,0,2,4,0,\dots$ and never reach $1$.
 
 ---
 
 ## Three ways to compute it
 
-### 1. Extended Euclid — works for any modulus
-
-Run `extgcd(a, m)`. It returns $g$ and coefficients $x, y$ with $ax + my = g$. If $g = 1$
-then reducing mod $m$ gives $ax \equiv 1$, so $x$ **is** the inverse.
+**1. Extended Euclid — any modulus.** `extgcd(a,m)` returns $x,y$ with $ax+my=g$; if
+$g=1$, reducing mod $m$ leaves $ax \equiv 1$, so $x$ **is** the inverse.
 
 ```cpp
 ll modInverse(ll a, ll m) {
     ll x, y;
-    ll g = extgcd(((a % m) + m) % m, m, x, y);
-    if (g != 1) return -1;                  // no inverse exists
-    return ((x % m) + m) % m;               // extgcd may hand back a negative x
+    if (extgcd(((a % m) + m) % m, m, x, y) != 1) return -1;   // no inverse
+    return ((x % m) + m) % m;                                 // extgcd may return x < 0
 }
 ```
 
-Both normalizations matter — `extgcd` returns signed coefficients.
+Both normalizations are required.
 
-### 2. Fermat's little theorem — prime modulus only
+**2. Fermat — prime modulus only.** $a^{\,p-1} \equiv 1$, so $a^{-1} \equiv a^{\,p-2}$.
+One call to fast exponentiation.
 
-For prime $p$ with $p \nmid a$:
+> On a composite modulus this does not fail — it returns a **wrong number silently**. Mod
+> $12$ it gives $5^{-1} = 1$, yet $5\times1 = 5 \neq 1$. The true answer is $5$.
 
-$$a^{\,p-1} \equiv 1 \pmod p \qquad\Longrightarrow\qquad a^{-1} \equiv a^{\,p-2} \pmod p$$
-
-One call to fast exponentiation, no extra function needed.
-
-> **Only valid when $m$ is prime.** On a composite modulus it does not fail — it returns a
-> wrong number with no warning. Mod $12$: Fermat gives $5^{-1} = 1$, but $5\times1 = 5 \neq 1$.
-> The true answer is $5$.
-
-### 3. All of $1^{-1}, \dots, n^{-1}$ at once — $O(n)$, prime modulus
-
-When you need many inverses (factorial tables for $\binom{n}{k}$), do not call the above
-$n$ times. Use the recurrence:
+**3. All of $1^{-1}\dots n^{-1}$ mod a prime — $O(n)$.** From $p = qi + r$:
 
 ```cpp
 inv[1] = 1;
-for (int i = 2; i <= n; ++i)
-    inv[i] = (p - p / i) * inv[p % i] % p;
+for (int i = 2; i <= n; ++i) inv[i] = (p - p / i) * inv[p % i] % p;
 ```
 
-$O(n)$ total instead of $O(n\log p)$.
-
-**Which to use**
-
-| Situation | Use |
+| modulus prime, one or two inverses | Fermat |
 |---|---|
-| modulus is prime, need one or two inverses | Fermat — shortest to write |
-| modulus is composite or unknown | extended Euclid — the safe default |
-| need $n$ inverses mod a prime | the $O(n)$ table |
+| modulus composite or unknown | extended Euclid |
+| $n$ inverses mod a prime | the $O(n)$ table |
 
 ---
 
-## The main application: $\binom{n}{k} \bmod p$
+## Main use: $\binom{n}{k} \bmod p$
 
-$$\binom{n}{k} = \frac{n!}{k!\,(n-k)!} \quad\Longrightarrow\quad \binom{n}{k} \bmod p = n! \cdot \bigl(k!\bigr)^{-1} \cdot \bigl((n-k)!\bigr)^{-1} \bmod p$$
+$$\binom nk \bmod p = n!\cdot\bigl(k!\bigr)^{-1}\cdot\bigl((n-k)!\bigr)^{-1} \bmod p$$
 
-Precompute factorials and their inverses once; then every query is $O(1)$.
+Precompute factorials and their inverses once; every query is then $O(1)$.
 
 ---
 
-## Linear congruences: $ax \equiv b \pmod m$
+## When $\gcd(a,m) \neq 1$: $ax \equiv b \pmod m$
 
-When $\gcd(a,m) \neq 1$ you cannot just invert. Let $g = \gcd(a,m)$:
+With $g = \gcd(a,m)$:
 
-$$\text{solvable} \iff g \mid b, \qquad\text{and then there are } \textbf{exactly } g \text{ solutions mod } m$$
+$$\text{solvable} \iff g \mid b, \qquad\text{and there are then \textbf{exactly } } g \text{ solutions mod } m$$
 
-spaced $\frac mg$ apart. To solve: divide the whole congruence by $g$ to get
-$\frac ag x \equiv \frac bg \pmod{\frac mg}$, where now the gcd *is* $1$, so the inverse
-exists.
-
-> Returning only one solution when there are $g$ is the classic half-right answer.
+spaced $\frac mg$ apart. Divide the congruence through by $g$ — the gcd becomes $1$, so the
+inverse exists. **Returning one solution when there are $g$ is the classic half-right
+answer.**
 
 ---
 
 ## Complexity
 
-| Task | Time | Note |
-|---|---|---|
-| inverse via extended Euclid | $O(\log m)$ | any $m$ |
-| inverse via Fermat | $O(\log p)$ | prime only |
-| all inverses $1..n$ | $O(n)$ | prime only |
-| solve $ax \equiv b \pmod m$ | $O(\log m + g)$ | returns all $g$ solutions |
-
----
-
-## Common mistakes
-
-| Mistake | Fix |
+| inverse via extended Euclid | $O(\log m)$, any $m$ |
 |---|---|
-| Writing `(a / b) % m` | division does not work under a modulus; multiply by $b^{-1}$ |
-| Fermat on a composite modulus | silently wrong; use extended Euclid |
-| Assuming an inverse always exists | only when $\gcd(a,m) = 1$ |
-| Using `extgcd`'s $x$ without normalizing | it can be negative |
-| `a * inv` overflowing when $m > 2^{31}$ | use `__int128` for the product |
-| Inverting $0$, or working mod $1$ | guard both |
-| Calling `modInverse` inside a loop $n$ times | build the $O(n)$ table instead |
-| Reporting one solution to $ax \equiv b$ | there are $\gcd(a,m)$ of them |
+| inverse via Fermat | $O(\log p)$, prime only |
+| all inverses $1..n$ | $O(n)$, prime only |
+| solve $ax \equiv b \pmod m$ | $O(\log m + g)$ |
 
 ---
 
-## Files
+## Pitfalls
 
-- [proofs.md](proofs.md) — why the inverse exists exactly when $\gcd=1$, why it is unique,
-  a proof of Fermat's little theorem, and where the $O(n)$ recurrence comes from.
-- [implementation.cpp](implementation.cpp) — four functions plus a $\binom{n}{k} \bmod p$
-  demo.
+| | |
+|---|---|
+| `(a / b) % m` | division does not work; multiply by $b^{-1}$ |
+| Fermat on a composite modulus | silently wrong |
+| assuming an inverse always exists | only when $\gcd(a,m)=1$ |
+| using `extgcd`'s $x$ unnormalized | it can be negative |
+| `a * inv` overflowing when $m > 2^{31}$ | `__int128` |
+| calling `modInverse` $n$ times in a loop | build the $O(n)$ table |
+| reporting one solution to $ax \equiv b$ | there are $\gcd(a,m)$ |
+
+---
+
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
