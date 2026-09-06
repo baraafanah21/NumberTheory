@@ -1,217 +1,137 @@
 # Proofs — Euler's Totient Function
 
-Five results. Each one: the claim, what it means, the proof, and why it matters in code.
-
-**Borrowed from earlier concepts:**
-
-- **Euclid's lemma, general form** ([gcd](../gcd-and-euclidean-algorithm/proofs.md)) — if
-  $\gcd(a,b) = 1$ and $a \mid bc$ then $a \mid c$.
-- **CRT** ([extended Euclid](../extended-euclidean-algorithm/proofs.md)) — for coprime
-  $m, n$, a number mod $mn$ is determined by its pair of residues mod $m$ and mod $n$.
-- **Unique factorization** ([unique factorization](../unique-factorization/proofs.md)) —
-  every $n > 1$ factors into primes in exactly one way.
+**Borrowed:** **Euclid's lemma** ([gcd](../gcd-and-euclidean-algorithm/proofs.md)); **CRT**
+([chinese remainder theorem](../chinese-remainder-theorem/proofs.md)); **unique
+factorization** ([unique factorization](../unique-factorization/proofs.md)).
 
 ---
 
 ## 1. $\varphi(p^k) = p^k - p^{\,k-1}$
 
-**Claim.** For a prime $p$ and $k \ge 1$:
+**Claim.** As stated, for prime $p$ and $k \ge 1$.
 
-$$\varphi(p^k) = p^k - p^{\,k-1} = p^k\left(1 - \frac1p\right)$$
+**Proof.** The only prime dividing $p^k$ is $p$, so for $1 \le a \le p^k$,
 
-**In words.** The only way to share a factor with $p^k$ is to be a multiple of $p$. So
-count those and subtract.
+$$\gcd(a,p^k) > 1 \iff p \mid a$$
 
-**Proof.** Let $1 \le a \le p^k$. Since the only prime dividing $p^k$ is $p$,
+The multiples of $p$ in $[1,p^k]$ are $p, 2p, \dots, p^{k-1}\cdot p$ — exactly $p^{k-1}$ of
+them. $\blacksquare$
 
-$$\gcd(a, p^k) > 1 \quad\Longleftrightarrow\quad p \mid a$$
-
-The multiples of $p$ in $[1, p^k]$ are $p, 2p, \dots, p^{k-1}\cdot p$, so there are exactly
-$p^{k-1}$ of them. Everything else is coprime to $p^k$:
-
-$$\varphi(p^k) = p^k - p^{\,k-1} \qquad \blacksquare$$
-
-**Special case $k=1$:** $\varphi(p) = p - 1$ — every number below a prime is coprime to it.
+At $k=1$: $\varphi(p) = p-1$.
 
 ---
 
 ## 2. $\varphi$ is multiplicative
 
-**Claim.** If $\gcd(m,n) = 1$ then
+**Claim.** $\gcd(m,n)=1 \Rightarrow \varphi(mn) = \varphi(m)\varphi(n)$.
 
-$$\varphi(m\,n) = \varphi(m)\,\varphi(n)$$
-
-**In words.** Being coprime to $mn$ means being coprime to $m$ *and* coprime to $n$ — two
+**In words.** Being coprime to $mn$ means being coprime to $m$ *and* to $n$ — two
 independent conditions. CRT says the choices really are independent, so the counts
 multiply.
 
-**Proof.** By **CRT**, since $\gcd(m,n)=1$, the map
+**Proof.** By **CRT**, $x \mapsto (x \bmod m,\ x \bmod n)$ is a bijection from
+$\{0,\dots,mn-1\}$ onto all pairs. And
 
-$$x \ \longmapsto\ (x \bmod m,\ \ x \bmod n)$$
+$$\gcd(x,mn)=1 \iff \gcd(x,m)=1 \ \text{ and } \ \gcd(x,n)=1$$
 
-is a bijection from $\{0, 1, \dots, mn-1\}$ onto all pairs $(u, v)$ with $0 \le u < m$ and
-$0 \le v < n$. (CRT says every such pair comes from exactly one $x$.)
+($\Rightarrow$) a common factor of $x$ and $m$ is one of $x$ and $mn$. ($\Leftarrow$) a
+prime dividing $x$ and $mn$ divides $m$ or $n$ by **Euclid's lemma**, contradicting one
+hypothesis.
 
-Now the key observation:
+Since $\gcd(x,m) = \gcd(x \bmod m,\ m)$, the condition depends only on the residue pair, so
+the bijection **restricts** to one between the coprime residues on each side. Counting both
+sides gives the claim. $\blacksquare$
 
-$$\gcd(x, mn) = 1 \quad\Longleftrightarrow\quad \gcd(x,m) = 1 \ \text{ and } \ \gcd(x,n) = 1$$
-
-($\Rightarrow$) any common factor of $x$ and $m$ is a common factor of $x$ and $mn$.
-($\Leftarrow$) a prime dividing both $x$ and $mn$ must divide $m$ or $n$ (Euclid's lemma),
-contradicting one of the two hypotheses.
-
-Furthermore $\gcd(x, m) = \gcd(x \bmod m,\ m)$, so the condition depends only on the
-residue pair. Therefore the bijection **restricts** to a bijection
-
-$$\{x : \gcd(x,mn)=1\} \ \longleftrightarrow\ \{u : \gcd(u,m)=1\} \times \{v : \gcd(v,n)=1\}$$
-
-Counting both sides gives $\varphi(mn) = \varphi(m)\varphi(n)$. $\blacksquare$
-
-**Why coprimality is required.** Without it the CRT bijection does not exist. Concretely
-$\varphi(2)\varphi(2) = 1 \cdot 1 = 1$, but $\varphi(4) = 2$.
+**Why coprimality is required.** Without it there is no CRT bijection —
+$\varphi(2)\varphi(2)=1$ while $\varphi(4)=2$.
 
 ---
 
 ## 3. The product formula
 
-**Claim.**
+**Claim.** $\ \varphi(n) = n\prod_{p \mid n}\bigl(1-\frac1p\bigr)$ over **distinct** primes.
 
-$$\varphi(n) = n \prod_{p \,\mid\, n} \left(1 - \frac1p\right)$$
+**Proof.** Write $n = \prod_i p_i^{e_i}$. The prime powers are pairwise coprime, so §2
+applies repeatedly, then §1 to each factor:
 
-over the **distinct** primes dividing $n$.
+$$\varphi(n) = \prod_i \varphi(p_i^{e_i}) = \prod_i p_i^{e_i}\Bigl(1-\frac1{p_i}\Bigr)
+= n\prod_i\Bigl(1-\frac1{p_i}\Bigr) \qquad\blacksquare$$
 
-**Proof.** Write $n = p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}$. The prime powers
-$p_i^{e_i}$ are pairwise coprime, so applying §2 repeatedly:
+**Why each prime appears once.** The exponent $e_i$ is absorbed into the leading $n$; only
+the *distinct* primes give correction factors. Writing $\bigl(1-\frac12\bigr)$ twice for
+$n=4$ is the classic error.
 
-$$\varphi(n) = \varphi(p_1^{e_1})\,\varphi(p_2^{e_2})\cdots\varphi(p_k^{e_k})$$
-
-Now substitute §1 for each factor:
-
-$$\varphi(n) = \prod_{i=1}^{k} p_i^{e_i}\left(1 - \frac{1}{p_i}\right)
-= \left(\prod_{i=1}^{k} p_i^{e_i}\right)\prod_{i=1}^{k}\left(1 - \frac{1}{p_i}\right)
-= n\prod_{i=1}^{k}\left(1 - \frac{1}{p_i}\right)$$
-
-$\blacksquare$
-
-**Why the product uses each prime once.** The exponent $e_i$ is fully absorbed into the
-leading $n$ — only the *distinct* primes appear in the correction factors. Writing
-$\left(1-\frac12\right)$ twice for $n = 4$ is a common error.
-
-**In code.** This is why the loop strips each prime out completely before applying its
-factor:
-
-```cpp
-while (n % p == 0) n /= p;     // consume the whole power
-result -= result / p;          // but scale by (1 - 1/p) only ONCE
-```
-
-and why `result -= result / p` is used rather than a multiplication: $1/p$ is $0$ in
-integer arithmetic, whereas `result / p` is exact here because $p$ divides `result` at
-that moment.
+**Justifies** the loop shape: strip the whole power (`while (n % p == 0) n /= p;`) but
+apply the factor **once**, and use `r -= r / p` rather than a multiplication, since $1/p$
+truncates to $0$ while `r / p` is exact at that moment.
 
 ---
 
 ## 4. Euler's theorem
 
-**Claim.** If $\gcd(a, m) = 1$ then
+**Claim.** $\gcd(a,m)=1 \Rightarrow a^{\,\varphi(m)} \equiv 1 \pmod m$.
 
-$$a^{\,\varphi(m)} \equiv 1 \pmod m$$
+**In words.** Multiplying every coprime residue by $a$ **shuffles** them; comparing the
+product before and after forces $a^{\varphi(m)}$ to be $1$. Same argument as Fermat, run on
+the coprime residues instead of all nonzero ones.
 
-**In words.** Multiplying every coprime residue by $a$ just **shuffles** them. Comparing
-the product before and after forces $a^{\varphi(m)}$ to be $1$. It is the same argument
-that proves Fermat's little theorem, run on the coprime residues instead of all nonzero
-ones.
+**Proof.** Let $S = \{r_1,\dots,r_{\varphi(m)}\}$ be the residues coprime to $m$.
 
-**Proof.** Let $S = \{r_1, r_2, \dots, r_{\varphi(m)}\}$ be the residues mod $m$ that are
-coprime to $m$ — there are $\varphi(m)$ of them by definition.
+*Multiplying by $a$ stays in $S$:* $\gcd(r,m)=1$ and $\gcd(a,m)=1$ give $\gcd(ar,m)=1$.
 
-**Step 1 — multiplying by $a$ keeps you inside $S$.** If $\gcd(r, m) = 1$ and
-$\gcd(a,m)=1$, then $ar$ shares no prime with $m$ either, so $\gcd(ar, m) = 1$ and
-$ar \bmod m \in S$.
+*It is injective:* $ar_i \equiv ar_j$ gives $m \mid a(r_i-r_j)$, and since $\gcd(a,m)=1$,
+**Euclid's lemma** gives $m \mid (r_i-r_j)$; both lie in $[0,m)$, so $r_i = r_j$.
 
-**Step 2 — the map is injective.** Suppose $a r_i \equiv a r_j \pmod m$. Then
-$m \mid a(r_i - r_j)$. Since $\gcd(a,m) = 1$, **Euclid's lemma** gives
+An injective map from a finite set to itself is a **bijection**, so multiplying all
+elements of each list gives the same value:
 
-$$m \mid (r_i - r_j)$$
+$$a^{\,\varphi(m)}\prod_i r_i \;\equiv\; \prod_i r_i \pmod m$$
 
-and as both lie in $[0, m)$, this forces $r_i = r_j$.
+Each $r_i$ is coprime to $m$, so their product is invertible — cancel it. $\blacksquare$
 
-**Step 3 — so it is a permutation.** An injective map from the finite set $S$ into itself
-is a bijection. So $\{a r_1, \dots, a r_{\varphi(m)}\}$ is $S$ again, reordered.
+**Where the hypothesis is used:** twice, in both bullet points. Without it the theorem is
+false — $2^{\varphi(4)} = 4 \equiv 0 \pmod 4$.
 
-**Step 4 — multiply everything.** Since the two lists contain the same residues,
+**Two consequences.** $a^{-1} \equiv a^{\,\varphi(m)-1}$ for **any** modulus (generalizing
+the Fermat trick, where $m=p$ and $\varphi(p)=p-1$); and writing
+$k = q\varphi(m)+r$ gives
 
-$$\prod_{i=1}^{\varphi(m)} (a\,r_i) \;\equiv\; \prod_{i=1}^{\varphi(m)} r_i \pmod m$$
+$$a^{\,k} = \bigl(a^{\varphi(m)}\bigr)^q a^{\,r} \equiv a^{\,k \bmod \varphi(m)}$$
 
-Pulling out the $a$'s from the left side:
+which is how you handle an exponent with a hundred thousand digits.
 
-$$a^{\,\varphi(m)} \prod_i r_i \;\equiv\; \prod_i r_i \pmod m$$
-
-**Step 5 — cancel the product.** Each $r_i$ is coprime to $m$, so $\prod_i r_i$ is too,
-and therefore has an inverse mod $m$. Multiplying both sides by it:
-
-$$a^{\,\varphi(m)} \equiv 1 \pmod m \qquad \blacksquare$$
-
-**Where the hypothesis is used.** Twice — Step 1 and Step 2 both need $\gcd(a,m)=1$.
-Without it the theorem is simply false: $2^{\varphi(4)} = 2^2 = 4 \equiv 0 \pmod 4$, not $1$.
-
-**In code — two consequences.**
-
-$$a^{-1} \equiv a^{\,\varphi(m)-1} \pmod m$$
-
-which works for **any** modulus, generalizing the Fermat trick from the inverse concept
-(there $m = p$ and $\varphi(p) = p-1$). And
-
-$$a^{\,k} \equiv a^{\,k \bmod \varphi(m)} \pmod m$$
-
-because writing $k = q\,\varphi(m) + r$ gives
-$a^k = \bigl(a^{\varphi(m)}\bigr)^q a^r \equiv 1^q a^r = a^r$. This is how you handle an
-exponent with a hundred thousand digits.
-
-**The trap, stated precisely.** That last reduction needs $\gcd(a,m) = 1$. For general $a$
-the correct statement — valid for all $a$ once $k \ge \log_2 m$ — is
+**The trap, stated precisely.** That reduction needs $\gcd(a,m)=1$. For general $a$ the
+correct form — valid for all $a$ once $k \ge \log_2 m$ — is
 
 $$a^{\,k} \equiv a^{\,(k \bmod \varphi(m)) + \varphi(m)} \pmod m$$
 
-(proved by splitting $m$ into prime powers; **cited here, not proved**). Use this form when
-you cannot guarantee coprimality. Counterexample for the naive version: $a=2$, $m=4$,
-$k=4$ gives $2^4 \equiv 0$, while $2^{4 \bmod 2} = 2^0 = 1$.
+(**cited, not proved** — it needs a prime-power split). Counterexample for the naive
+version: $a=2$, $m=4$, $k=4$ gives $2^4 \equiv 0$ while $2^{4 \bmod 2} = 1$.
 
 ---
 
 ## 5. $\sum_{d \mid n} \varphi(d) = n$
 
-**Claim.** Summing $\varphi$ over all divisors of $n$ returns $n$.
+**Claim.** As stated.
 
-**In words.** Sort the numbers $1 \dots n$ by what their gcd with $n$ is. Each bucket turns
-out to be counted by a totient, and the buckets must add back to $n$.
+**In words.** Sort $1\dots n$ by their gcd with $n$; each bucket turns out to be counted by
+a totient, and the buckets must add back to $n$.
 
-**Proof.** Partition $\{1, 2, \dots, n\}$ according to $\gcd(k, n)$. That gcd is always a
-divisor of $n$, so the buckets are indexed by the divisors $d \mid n$:
+**Proof.** Partition $\{1,\dots,n\}$ by $\gcd(k,n)$, which is always a divisor of $n$:
 
-$$\{1,\dots,n\} \;=\; \bigsqcup_{d \,\mid\, n} B_d, \qquad B_d = \{\,k : \gcd(k,n) = d\,\}$$
+$$\{1,\dots,n\} = \bigsqcup_{d \mid n} B_d, \qquad B_d = \{k : \gcd(k,n) = d\}$$
 
-Now count $B_d$. Every $k$ with $\gcd(k,n) = d$ is a multiple of $d$, say $k = d\,j$ with
-$1 \le j \le n/d$. And
+Every $k \in B_d$ is a multiple of $d$, say $k = dj$ with $1 \le j \le n/d$, and
 
-$$\gcd(d\,j,\ n) = d \quad\Longleftrightarrow\quad \gcd\!\left(j,\ \frac nd\right) = 1$$
+$$\gcd(dj,\ n) = d \iff \gcd\Bigl(j,\ \frac nd\Bigr) = 1$$
 
-(dividing both entries of the gcd by $d$). So the elements of $B_d$ correspond exactly to
-the $j \in [1, n/d]$ coprime to $n/d$, giving
+so $|B_d| = \varphi(n/d)$. Summing the parts:
 
-$$|B_d| = \varphi\!\left(\frac nd\right)$$
+$$n = \sum_{d \mid n}\varphi\Bigl(\frac nd\Bigr) = \sum_{d \mid n}\varphi(d)$$
 
-Summing the sizes of a partition:
+since $n/d$ runs over the divisors as $d$ does. $\blacksquare$
 
-$$n = \sum_{d \,\mid\, n} \varphi\!\left(\frac nd\right)$$
+**Check.** $n=12$: $1+1+2+2+2+4 = 12$ ✓
 
-Finally, as $d$ runs over the divisors of $n$, so does $n/d$ (the divisor-pairing from the
-[divisibility](../divisibility/) concept). Relabelling gives
-
-$$n = \sum_{d \,\mid\, n} \varphi(d) \qquad \blacksquare$$
-
-**Check.** $n = 12$: divisors $1,2,3,4,6,12$ give
-$1+1+2+2+2+4 = 12$ ✓
-
-**In code.** This is a cheap and very effective self-test for a $\varphi$ table — the
-implementation uses it as one of its checks.
+**Used** as a cheap self-test for a $\varphi$ table — and it is the identity that makes the
+primitive-root theorem work.
