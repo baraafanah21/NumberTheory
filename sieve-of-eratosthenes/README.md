@@ -117,4 +117,4 @@ so the list is cheap to store.
 
 ---
 
-[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
