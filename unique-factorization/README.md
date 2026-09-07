@@ -93,4 +93,4 @@ the guarantee this returns **the** factorization, not *a* factorization.
 
 ---
 
-[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
