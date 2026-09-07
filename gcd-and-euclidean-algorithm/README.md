@@ -99,4 +99,4 @@ The last one bites later — CRT needs the pairwise condition. `std::lcm` is UB 
 
 ---
 
-[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
