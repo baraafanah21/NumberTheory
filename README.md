@@ -17,18 +17,23 @@ properly, and paired with the code that actually gets used.
 | 8 | [Sieve of Eratosthenes](sieve-of-eratosthenes/) | all primes up to $n$, fast factorization |
 | 9 | [Euler's totient function](euler-totient-function/) | inverses for any modulus, huge exponents |
 | 10 | [Primitive roots and discrete log](primitive-roots-and-discrete-log/) | cycle lengths, generators, solving $g^x \equiv b$ |
+| 11 | [Miller–Rabin primality test](miller-rabin-primality-test/) | is *this* number prime, for $n$ up to $10^{18}$ |
 
 ```text
 1. progressions ──┐
                   │                     ┌──→ 4. unique factorization ──┐
 2. divisibility ──┼──→ 3. gcd & Euclid ─┤                              │
                   │                     └──→ 5. extended Euclid ──┬──→ 6. modular inverse
-                  │                                               │            │
-                  │                                               └──→ 7. CRT ←┘
+                  │                                               │       │        │
+                  │                                               └→ 7. CRT ←┘     │
+                  │                                                       11. Miller–Rabin
                   └──→ 8. sieve ──────────────────────────→ 9. Euler's totient
                                                                     │
                                                     10. primitive roots ←┘
 ```
+
+**Primes: which tool.** Many numbers below $10^7$ → the **sieve** (8). One number up to
+$10^{18}$ → **Miller–Rabin** (11).
 
 Concept 3 proves **Euclid's lemma**, which is what makes concept 4 true — and concept 4 is
 what makes the formulas in 8 and 9 well defined.
@@ -41,6 +46,9 @@ what makes the formulas in 8 and 9 well defined.
   words, proves it, then says which line of code it justifies.
 - **`implementation.cpp`** — only the functions that matter, with complexities, plus a demo
   that checks itself.
+- **`problems.md`** — ten problems, by hand then in code then harder, with worked answers.
+  Every check value in them was computed, so a mismatch means a bug in your code. Each ends
+  with a table of **Codeforces and LeetCode problems** that drill the same idea.
 
 ## Conventions
 
