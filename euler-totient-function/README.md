@@ -128,4 +128,4 @@ with $n$ — and it is what makes the primitive-root theorem work.
 
 ---
 
-[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
