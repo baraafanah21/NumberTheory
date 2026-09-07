@@ -99,4 +99,4 @@ One query with $n \le 10^{12}$ → $O(\sqrt n)$. Many queries with $n \le 10^6$ 
 
 ---
 
-[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
