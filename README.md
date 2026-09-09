@@ -1,7 +1,7 @@
 # NumberTheory
 Recently, I wasted a lot of time jumping between books and resources. To help you avoid the same mistake, here’s my condensed path with extra details you can skip if needed.
 A personal number theory repository, built one concept at a time — each one small, proved
-properly, and paired with the code that actually gets used.
+properly, and paired with the applied code that actually gets used.
 
 **Read them in this order** — each one uses the ones before it:
 
