@@ -1,6 +1,6 @@
 # Pollard's Rho Factorization
 
-[Miller–Rabin](../miller-rabin-primality-test/) tells you $n$ is composite. It does **not**
+[Miller–Rabin](../miller-rabin/) tells you $n$ is composite. It does **not**
 tell you a single factor. This does — for $n$ up to $9\times10^{18}$, in tens of thousands
 of steps rather than billions.
 
@@ -8,10 +8,10 @@ $$O\bigl(n^{1/4}\bigr) \quad\text{instead of}\quad O\bigl(\sqrt n\bigr)$$
 
 **Use:** factoring one large number — and everything downstream of a factorization
 ($\tau$, $\sigma$, $\varphi$, divisors) once $n$ is past $10^{12}$. **Needs:**
-[Miller–Rabin](../miller-rabin-primality-test/) (the base case) ·
-[gcd](../gcd-and-euclidean-algorithm/). **Complements:**
-[sieve](../sieve-of-eratosthenes/) for many small numbers,
-[unique factorization](../unique-factorization/) for the $O(\sqrt n)$ version.
+[Miller–Rabin](../miller-rabin/) (the base case) ·
+[gcd](../gcd/). **Complements:**
+[sieve](../sieve/) for many small numbers,
+[unique factorization](../prime-factorization/) for the $O(\sqrt n)$ version.
 
 ---
 
@@ -21,9 +21,9 @@ Deciding *is $n$ prime* is fast. Producing *the factors of $n$* is not, and no k
 converts one into the other. That asymmetry is not a gap in this repo — it is what RSA is
 built on.
 
-| $n \le 10^7$, many numbers | [sieve](../sieve-of-eratosthenes/) + `spf` | $O(\log n)$ each |
+| $n \le 10^7$, many numbers | [sieve](../sieve/) + `spf` | $O(\log n)$ each |
 |---|---|---|
-| $n \le 10^{12}$, one number | [trial division](../unique-factorization/) | $O(\sqrt n)$ |
+| $n \le 10^{12}$, one number | [trial division](../prime-factorization/) | $O(\sqrt n)$ |
 | $n \le 9\times10^{18}$, one number | **Pollard's rho** | $O(n^{1/4})$ |
 
 ---

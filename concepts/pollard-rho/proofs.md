@@ -1,9 +1,9 @@
 # Proofs — Pollard's Rho
 
-**Borrowed:** **Euclid's lemma** ([gcd](../gcd-and-euclidean-algorithm/proofs.md)),
-**unique factorization** ([unique factorization](../unique-factorization/proofs.md)), and
+**Borrowed:** **Euclid's lemma** ([gcd](../gcd/proofs.md)),
+**unique factorization** ([unique factorization](../prime-factorization/proofs.md)), and
 the **Miller–Rabin test**
-([Miller–Rabin](../miller-rabin-primality-test/proofs.md)), which supplies the base case
+([Miller–Rabin](../miller-rabin/proofs.md)), which supplies the base case
 of the recursion.
 
 ---

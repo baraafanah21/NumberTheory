@@ -8,7 +8,7 @@ code prints something else, the bug is yours. Answers at the bottom.
 ## By hand
 
 **1. The asymmetry.** At $n = 10^{18}$: roughly how many operations does
-[Miller–Rabin](../miller-rabin-primality-test/) need to decide *is $n$ prime*, and how many
+[Miller–Rabin](../miller-rabin/) need to decide *is $n$ prime*, and how many
 does trial division need to produce *a factor of $n$*? Name the everyday system whose
 security is exactly this gap.
 

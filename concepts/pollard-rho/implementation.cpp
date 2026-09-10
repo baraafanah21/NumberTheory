@@ -13,7 +13,7 @@ using ll = long long;
 
 // ---------------------------------------------------------------- borrowed
 
-// Same three functions as ../miller-rabin-primality-test/, unchanged.  Rho needs a
+// Same three functions as ../miller-rabin/, unchanged.  Rho needs a
 // primality test to know when a piece is finished, and the modulus here reaches 9e18, so
 // every product still has to go through __int128.
 ll mulMod(ll a, ll b, ll m) { return (ll)((__int128)a * b % m); }
@@ -130,7 +130,7 @@ void factorRec(ll n, std::map<ll, int> &out) {
 }
 
 // Canonical form, as (prime, exponent) pairs in increasing order.  Same contract as
-// ../unique-factorization/, but for n up to 9e18 instead of 1e12.
+// ../prime-factorization/, but for n up to 9e18 instead of 1e12.
 //
 // The small primes are stripped by trial division first.  Two reasons: rho spends its
 // n^(1/4) budget looking for a factor a single division would have found, and f(x) = x^2+c
