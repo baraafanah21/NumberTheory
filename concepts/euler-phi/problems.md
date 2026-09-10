@@ -34,7 +34,7 @@ $(k \bmod \varphi(m)) + \varphi(m)$ gives.
 
 **7. All totients at once.** Sieve $\varphi(1..10^6)$ and report $\sum_{k\le10^6}\varphi(k)$.
 Then use it: how many pairs $(a,b)$ with $1 \le a < b \le 10^6$ are coprime? (Compare your
-answer for $n = 10$ against the $63$ from the [gcd](../gcd-and-euclidean-algorithm/)
+answer for $n = 10$ against the $63$ from the [gcd](../gcd/)
 problems.)
 
 **8. Inverting $\varphi$.** Find every $n$ with $\varphi(n) = 8$. Bound your search first —
@@ -50,7 +50,7 @@ give the analogous characterization of $n = p^k$.
 **10. Why the identity is true.** Prove $\sum_{d\mid n}\varphi(d) = n$ by sorting
 $1,2,\dots,n$ into buckets by $\gcd(k,n)$. Show the bucket for $\gcd = d$ has exactly
 $\varphi(n/d)$ members, then finish. This is the proof that makes the primitive-root
-theorem work in the [next folder](../primitive-roots-and-discrete-log/).
+theorem work in the [next folder](../primitive-roots/).
 
 ---
 

@@ -5,9 +5,9 @@ $$\varphi(n) = \#\{\,k : 1 \le k \le n,\ \gcd(k,n) = 1\,\}$$
 How many numbers up to $n$ are **coprime to $n$**.
 
 **Use:** inverses modulo a **composite**, reducing huge exponents, counting coprime pairs.
-**Needs:** [modular inverse](../modular-multiplicative-inverse/) ·
-[sieve](../sieve-of-eratosthenes/) **Next:**
-[primitive roots](../primitive-roots-and-discrete-log/)
+**Needs:** [modular inverse](../modular-inverse/) ·
+[sieve](../sieve/) **Next:**
+[primitive roots](../primitive-roots/)
 
 ---
 

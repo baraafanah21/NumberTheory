@@ -1,8 +1,8 @@
 # Proofs — Euler's Totient Function
 
-**Borrowed:** **Euclid's lemma** ([gcd](../gcd-and-euclidean-algorithm/proofs.md)); **CRT**
+**Borrowed:** **Euclid's lemma** ([gcd](../gcd/proofs.md)); **CRT**
 ([chinese remainder theorem](../chinese-remainder-theorem/proofs.md)); **unique
-factorization** ([unique factorization](../unique-factorization/proofs.md)).
+factorization** ([unique factorization](../prime-factorization/proofs.md)).
 
 ---
 
