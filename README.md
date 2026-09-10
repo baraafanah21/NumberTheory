@@ -18,6 +18,7 @@ properly, and paired with the applied code that actually gets used.
 | 9 | [Euler's totient function](euler-totient-function/) | inverses for any modulus, huge exponents |
 | 10 | [Primitive roots and discrete log](primitive-roots-and-discrete-log/) | cycle lengths, generators, solving $g^x \equiv b$ |
 | 11 | [Miller–Rabin primality test](miller-rabin-primality-test/) | is *this* number prime, for $n$ up to $10^{18}$ |
+| 12 | [Pollard's rho factorization](pollards-rho-factorization/) | the *factors* of one number, in $O(n^{1/4})$ |
 
 ```text
 1. progressions ──┐
@@ -26,14 +27,15 @@ properly, and paired with the applied code that actually gets used.
                   │                     └──→ 5. extended Euclid ──┬──→ 6. modular inverse
                   │                                               │       │        │
                   │                                               └→ 7. CRT ←┘     │
-                  │                                                       11. Miller–Rabin
+                  │                                                       11. Miller–Rabin ──→ 12. rho
                   └──→ 8. sieve ──────────────────────────→ 9. Euler's totient
                                                                     │
                                                     10. primitive roots ←┘
 ```
 
 **Primes: which tool.** Many numbers below $10^7$ → the **sieve** (8). One number up to
-$10^{18}$ → **Miller–Rabin** (11).
+$10^{18}$ → **Miller–Rabin** (11). Its **factors** → **Pollard's rho** (12), which calls
+Miller–Rabin to know when to stop splitting.
 
 Concept 3 proves **Euclid's lemma**, which is what makes concept 4 true — and concept 4 is
 what makes the formulas in 8 and 9 well defined.
