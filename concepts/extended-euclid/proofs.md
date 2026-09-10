@@ -1,7 +1,7 @@
 # Proofs — Extended Euclidean Algorithm
 
 **Borrowed:** **linearity** ([divisibility](../divisibility/proofs.md)), **Bézout** and
-**Euclid's lemma** ([gcd](../gcd-and-euclidean-algorithm/proofs.md)).
+**Euclid's lemma** ([gcd](../gcd/proofs.md)).
 
 ---
 

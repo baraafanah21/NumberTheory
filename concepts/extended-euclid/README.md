@@ -1,12 +1,12 @@
 # Extended Euclidean Algorithm
 
-[Bézout](../gcd-and-euclidean-algorithm/) says integers $x,y$ exist with
+[Bézout](../gcd/) says integers $x,y$ exist with
 $ax+by = \gcd(a,b)$, but never produces them. This does.
 
 **Use:** solving $ax+by=c$; and it is the engine under
-[modular inverse](../modular-multiplicative-inverse/) and
+[modular inverse](../modular-inverse/) and
 [CRT](../chinese-remainder-theorem/). **Needs:**
-[gcd](../gcd-and-euclidean-algorithm/)
+[gcd](../gcd/)
 
 ---
 

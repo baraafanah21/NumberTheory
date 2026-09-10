@@ -1,7 +1,7 @@
 // Extended Euclidean Algorithm -- g++ -std=c++17 -O2 implementation.cpp
 //
 // The two biggest uses of extgcd have their own concepts:
-//   ../modular-multiplicative-inverse/   dividing under a modulus
+//   ../modular-inverse/   dividing under a modulus
 //   ../chinese-remainder-theorem/        combining congruences
 
 #include <iostream>
