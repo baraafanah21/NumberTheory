@@ -1,8 +1,8 @@
 # Proofs — Chinese Remainder Theorem
 
-**Borrowed:** **Bézout** ([gcd](../gcd-and-euclidean-algorithm/proofs.md)); **linear
+**Borrowed:** **Bézout** ([gcd](../gcd/proofs.md)); **linear
 congruences** and **modular inverse**
-([modular inverse](../modular-multiplicative-inverse/proofs.md)) — $ax \equiv b \pmod m$ is
+([modular inverse](../modular-inverse/proofs.md)) — $ax \equiv b \pmod m$ is
 solvable iff $\gcd(a,m) \mid b$, and $x$ is then determined modulo
 $\frac{m}{\gcd(a,m)}$.
 
@@ -47,7 +47,7 @@ $\mathrm{lcm} = m_1m_2$. Solvability makes $\Phi$ surjective; uniqueness makes i
 injective. $\blacksquare$
 
 **Already used.** The proof that Euler's totient is multiplicative
-([totient](../euler-totient-function/proofs.md) §2) *is* this bijection, restricted to the
+([totient](../euler-phi/proofs.md) §2) *is* this bijection, restricted to the
 residues coprime to the modulus.
 
 ---

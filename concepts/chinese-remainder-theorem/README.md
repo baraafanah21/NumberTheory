@@ -9,7 +9,7 @@ $3\cdot5\cdot7 = 105$.
 
 **Use:** combining periodic conditions, reconstructing a number from residues, splitting a
 big computation into small ones. **Needs:**
-[modular inverse](../modular-multiplicative-inverse/)
+[modular inverse](../modular-inverse/)
 
 ---
 
