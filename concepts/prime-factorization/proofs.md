@@ -1,6 +1,6 @@
 # Proofs — Unique Factorization
 
-**Borrowed** from [gcd](../gcd-and-euclidean-algorithm/proofs.md): **Euclid's lemma** —
+**Borrowed** from [gcd](../gcd/proofs.md): **Euclid's lemma** —
 $p$ prime and $p \mid ab$ $\Rightarrow$ $p \mid a$ or $p \mid b$. Everything rests on it,
 and nothing here is used to prove it (that would be circular — it comes from Bézout).
 

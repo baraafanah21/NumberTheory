@@ -8,7 +8,7 @@ $$n = p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}, \qquad p_1 < p_2 < \cdots < p_k$$
 
 **Use:** it is what makes "the exponent of $p$ in $n$" a meaningful quantity — and every
 formula stated in terms of a factorization. **Needs:**
-[gcd](../gcd-and-euclidean-algorithm/) (Euclid's lemma)
+[gcd](../gcd/) (Euclid's lemma)
 
 ---
 
@@ -77,7 +77,7 @@ the guarantee this returns **the** factorization, not *a* factorization.
 
 | one $n \le 10^{12}$ | trial division | $O(\sqrt n)$ |
 |---|---|---|
-| many $m \le 10^7$ | `spf` table from the [sieve](../sieve-of-eratosthenes/) | $O(\log m)$ each |
+| many $m \le 10^7$ | `spf` table from the [sieve](../sieve/) | $O(\log m)$ each |
 
 ---
 
