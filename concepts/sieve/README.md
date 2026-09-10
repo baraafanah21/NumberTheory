@@ -5,7 +5,7 @@ $O(n\sqrt n)$ — hopeless at $n = 10^7$.
 
 **Use:** many primes, many factorizations, divisor functions over a range. **Needs:**
 [divisibility](../divisibility/) **Next:**
-[Euler's totient](../euler-totient-function/)
+[Euler's totient](../euler-phi/)
 
 ---
 

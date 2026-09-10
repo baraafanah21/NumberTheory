@@ -95,7 +95,7 @@ dividing $m$, and removing the smallest each time emits the primes in increasing
 none missed. $\blacksquare$
 
 That this is *the* factorization, not merely *a* factorization, is
-[unique factorization](../unique-factorization/proofs.md) §2.
+[unique factorization](../prime-factorization/proofs.md) §2.
 
 **Justifies** building `spf` before factorizing many numbers: about $23$ operations at
 $m \le 10^7$, versus $\sqrt m \approx 3000$ for trial division. With the factorization in
