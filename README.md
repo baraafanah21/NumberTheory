@@ -7,18 +7,18 @@ properly, and paired with the applied code that actually gets used.
 
 | # | Concept | What you get from it |
 |---|---|---|
-| 1 | [Progressions](arithmetic-and-geometric-progressions/) | summing a sequence without looping |
-| 2 | [Divisibility](divisibility/) | divisors in $O(\sqrt n)$, sieves, digit tests |
-| 3 | [GCD and the Euclidean algorithm](gcd-and-euclidean-algorithm/) | gcd, lcm, coprimality, reachability |
-| 4 | [Unique factorization](unique-factorization/) | why prime factorization is *the* factorization |
-| 5 | [Extended Euclidean algorithm](extended-euclidean-algorithm/) | Bézout coefficients, $ax+by=c$, CRT |
-| 6 | [Modular multiplicative inverse](modular-multiplicative-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
-| 7 | [Chinese remainder theorem](chinese-remainder-theorem/) | combining congruences, splitting a computation |
-| 8 | [Sieve of Eratosthenes](sieve-of-eratosthenes/) | all primes up to $n$, fast factorization |
-| 9 | [Euler's totient function](euler-totient-function/) | inverses for any modulus, huge exponents |
-| 10 | [Primitive roots and discrete log](primitive-roots-and-discrete-log/) | cycle lengths, generators, solving $g^x \equiv b$ |
-| 11 | [Miller–Rabin primality test](miller-rabin-primality-test/) | is *this* number prime, for $n$ up to $10^{18}$ |
-| 12 | [Pollard's rho factorization](pollards-rho-factorization/) | the *factors* of one number, in $O(n^{1/4})$ |
+| 1 | [Progressions](concepts/progressions/) | summing a sequence without looping |
+| 2 | [Divisibility](concepts/divisibility/) | divisors in $O(\sqrt n)$, sieves, digit tests |
+| 3 | [GCD and the Euclidean algorithm](concepts/gcd/) | gcd, lcm, coprimality, reachability |
+| 4 | [Unique factorization](concepts/prime-factorization/) | why prime factorization is *the* factorization |
+| 5 | [Extended Euclidean algorithm](concepts/extended-euclid/) | Bézout coefficients, $ax+by=c$, CRT |
+| 6 | [Modular multiplicative inverse](concepts/modular-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
+| 7 | [Chinese remainder theorem](concepts/chinese-remainder-theorem/) | combining congruences, splitting a computation |
+| 8 | [Sieve of Eratosthenes](concepts/sieve/) | all primes up to $n$, fast factorization |
+| 9 | [Euler's totient function](concepts/euler-phi/) | inverses for any modulus, huge exponents |
+| 10 | [Primitive roots and discrete log](concepts/primitive-roots/) | cycle lengths, generators, solving $g^x \equiv b$ |
+| 11 | [Miller–Rabin primality test](concepts/miller-rabin/) | is *this* number prime, for $n$ up to $10^{18}$ |
+| 12 | [Pollard's rho factorization](concepts/pollard-rho/) | the *factors* of one number, in $O(n^{1/4})$ |
 
 ```text
 1. progressions ──┐
@@ -62,5 +62,5 @@ what makes the formulas in 8 and 9 well defined.
   demo verifies its own output against brute force.
 
 ```sh
-g++ -std=c++17 -O2 -o demo divisibility/implementation.cpp && ./demo
+g++ -std=c++17 -O2 -o demo concepts/divisibility/implementation.cpp && ./demo
 ```
