@@ -1,8 +1,8 @@
 # Proofs — Primitive Roots and Discrete Logarithm
 
 **Borrowed:** **Euler's theorem** and the identity $\sum_{d \mid n}\varphi(d) = n$
-([totient](../euler-totient-function/proofs.md)); **Euclid's lemma**
-([gcd](../gcd-and-euclidean-algorithm/proofs.md)); the **division algorithm**
+([totient](../euler-phi/proofs.md)); **Euclid's lemma**
+([gcd](../gcd/proofs.md)); the **division algorithm**
 ([divisibility](../divisibility/proofs.md)).
 
 ---

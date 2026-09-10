@@ -44,7 +44,7 @@ what that says about the group.
 
 **9. Exactly $\varphi(p-1)$ of them.** Prove that a prime $p$ has exactly $\varphi(p-1)$
 primitive roots. The engine is $\sum_{d\mid n}\varphi(d) = n$ from the
-[totient](../euler-totient-function/) folder plus the fact that $x^d \equiv 1$ has at most
+[totient](../euler-phi/) folder plus the fact that $x^d \equiv 1$ has at most
 $d$ roots mod $p$. Verify your count for $p = 17$ by listing them.
 
 **10. Smallest $x$, honestly.** In BSGS with $x = in - j$, prove every $x \in [1, m]$ is

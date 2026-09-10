@@ -8,7 +8,7 @@ Euler says $a^{\varphi(m)} \equiv 1$. Two follow-up questions:
 Then the reverse problem: given $g^x \equiv b$, find $x$ — the **discrete logarithm**.
 
 **Use:** cycle lengths, generators, solving $a^x \equiv b$. **Needs:**
-[Euler's totient](../euler-totient-function/)
+[Euler's totient](../euler-phi/)
 
 ---
 
