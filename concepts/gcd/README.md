@@ -5,8 +5,8 @@ however large the inputs.
 
 **Use:** reducing fractions, lcm and cycles, coprimality, reachability. **Needs:**
 [divisibility](../divisibility/) **Next:**
-[unique factorization](../unique-factorization/) ·
-[extended Euclid](../extended-euclidean-algorithm/)
+[unique factorization](../prime-factorization/) ·
+[extended Euclid](../extended-euclid/)
 
 ---
 

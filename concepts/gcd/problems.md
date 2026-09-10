@@ -27,7 +27,7 @@ measure exactly $8$ litres? Exactly $9$? State the rule you used, not just the a
 
 **5. Coprime pairs.** Count the ordered pairs $(a,b)$ with $1 \le a,b \le 10$ and
 $\gcd(a,b)=1$. Brute force is fine here — keep the number, you will meet it again in
-[Euler's totient](../euler-totient-function/).
+[Euler's totient](../euler-phi/).
 
 **6. Exponent gcd.** Compute $\gcd(2^{100}-1,\ 2^{60}-1)$ — the numbers have 31 and 19
 digits, so do it *without* big integers. Guess the pattern from small cases first.
@@ -50,7 +50,7 @@ does it not?
 
 **10. The product identity.** Prove $\gcd(a,b)\cdot\mathrm{lcm}(a,b) = ab$ for positive
 $a,b$. Two routes: exponent-wise via $\min + \max = x + y$ (needs
-[unique factorization](../unique-factorization/)), or directly from the definitions
+[unique factorization](../prime-factorization/)), or directly from the definitions
 (needs only Bézout). Do the second.
 
 ---

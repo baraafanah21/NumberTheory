@@ -63,7 +63,7 @@ solvability of $ax+by=c$ iff $\gcd(a,b) \mid c$, and the fact every later proof 
 every common divisor **divides** the gcd.
 
 *Non-constructive — it does not produce $x,y$. That is
-[extended Euclid](../extended-euclidean-algorithm/).*
+[extended Euclid](../extended-euclid/).*
 
 ---
 
