@@ -1,8 +1,8 @@
 # Proofs — Miller–Rabin
 
 **Borrowed:** **Fermat's little theorem**
-([modular inverse](../modular-multiplicative-inverse/proofs.md) §3) and **Euclid's lemma**
-([gcd](../gcd-and-euclidean-algorithm/proofs.md)).
+([modular inverse](../modular-inverse/proofs.md) §3) and **Euclid's lemma**
+([gcd](../gcd/proofs.md)).
 
 ---
 

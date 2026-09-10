@@ -7,9 +7,9 @@ Trial division costs $O(\sqrt n)$, which is $10^9$ operations at $n = 10^{18}$. 
 does it in a few hundred multiplications.
 
 **Use:** primality of a single large number. **Needs:**
-[modular inverse](../modular-multiplicative-inverse/) (Fermat's little theorem).
-**Complements:** [sieve](../sieve-of-eratosthenes/), which handles _many small_ numbers.
-**Next:** [Pollard's rho](../pollards-rho-factorization/), which turns "composite" into the
+[modular inverse](../modular-inverse/) (Fermat's little theorem).
+**Complements:** [sieve](../sieve/), which handles _many small_ numbers.
+**Next:** [Pollard's rho](../pollard-rho/), which turns "composite" into the
 actual factors.
 
 ---
@@ -95,9 +95,9 @@ seed.
 Each `mulMod` needs `__int128`, since $n$ up to $9\times10^{18}$ makes products reach
 $10^{37}$.
 
-**Choosing:** many numbers below $10^7$ → [sieve](../sieve-of-eratosthenes/). One number
+**Choosing:** many numbers below $10^7$ → [sieve](../sieve/). One number
 up to $10^{18}$ → Miller–Rabin. Need the _factors_ of a big number →
-[Pollard's rho](../pollards-rho-factorization/), which uses Miller–Rabin to know when to
+[Pollard's rho](../pollard-rho/), which uses Miller–Rabin to know when to
 stop.
 
 ---
