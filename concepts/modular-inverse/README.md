@@ -5,7 +5,7 @@ $$a \cdot a^{-1} \equiv 1 \pmod m$$
 The modular version of "one over $a$" — and the **only** way to divide under a modulus.
 
 **Use:** any fraction in a problem answered mod $10^9+7$ — binomials, probabilities,
-averages. **Needs:** [extended Euclid](../extended-euclidean-algorithm/) **Next:**
+averages. **Needs:** [extended Euclid](../extended-euclid/) **Next:**
 [CRT](../chinese-remainder-theorem/)
 
 ---

@@ -1,6 +1,6 @@
 # Proofs — Modular Multiplicative Inverse
 
-**Borrowed** from [gcd](../gcd-and-euclidean-algorithm/proofs.md): **Bézout** (the values
+**Borrowed** from [gcd](../gcd/proofs.md): **Bézout** (the values
 $ax+my$ are exactly the multiples of $\gcd(a,m)$) and **Euclid's lemma**.
 
 ---
