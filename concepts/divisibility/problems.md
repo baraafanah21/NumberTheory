@@ -106,7 +106,7 @@ wraps negative, the condition stays true, and the loop runs past $n$ — or fore
 
 **8.** $6 \mid 4\times9$ while $6\nmid4$ and $6\nmid9$ — because $6 = 2\cdot3$ splits across
 the factors. The implication needs $d$ **prime**: that is Euclid's lemma, proved in
-[gcd](../gcd-and-euclidean-algorithm/), and it is exactly what makes factorization unique.
+[gcd](../gcd/), and it is exactly what makes factorization unique.
 
 **9.** Count the pairs $(d,m)$ with $d \mid m$ and $m \le n$ in two orders: by $m$ it is
 $\sum_m \tau(m)$; by $d$ it is $\sum_d \#\{\text{multiples of } d \le n\} =

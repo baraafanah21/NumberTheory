@@ -6,7 +6,7 @@ Defined by **multiplication**, not division — no fractions appear anywhere. In
 `b % a == 0`.
 
 **Use:** divisors, sieves, perfect-square tricks. **Next:**
-[gcd](../gcd-and-euclidean-algorithm/)
+[gcd](../gcd/)
 
 ---
 
@@ -42,7 +42,7 @@ divisor is its own partner ($d = n/d$).
 
 **Trap.** $d \mid ab$ does **not** give $d \mid a$ or $d \mid b$: $6 \mid 4{\times}9$ but
 $6$ divides neither. It needs $d$ **prime** — see
-[gcd](../gcd-and-euclidean-algorithm/).
+[gcd](../gcd/).
 
 ---
 
