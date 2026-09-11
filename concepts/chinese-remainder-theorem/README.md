@@ -95,6 +95,30 @@ system.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **several simultaneous congruences** $x \equiv a_i \pmod{m_i}$, stated in any wording
+* **two periodic events coinciding** — "every 4 days from Tuesday, every 6 hours from 3"
+* a number known only by its **remainders**, to be reconstructed
+* "the smallest $x$ such that" a list of modular conditions all hold
+* a modulus that **factors into coprime prime powers**, letting you solve each separately
+  and recombine
+* counting how many $x \le N$ satisfy all the conditions → solve once, then count the
+  arithmetic progression modulo the lcm
+* exact big-integer arithmetic done through several word-sized primes
+* a period that is the **lcm** of several smaller periods
+
+**The tell.** The unknown is constrained modulo several different numbers at once. One
+congruence is [modular inverse](../modular-inverse/) work; two or more is CRT.
+
+**Anti-pattern.** Do not assume the system is solvable. With non-coprime moduli it is
+often contradictory, and the check $\gcd(m_1,m_2) \mid (a_2-a_1)$ is part of the algorithm,
+not an optimisation. Also watch the lcm overflowing — ten moduli near $10^9$ already do.
+
+---
+
 ## Complexity
 
 | merge two | $O(\log\min(m_1,m_2))$ |
