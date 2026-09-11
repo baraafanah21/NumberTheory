@@ -122,6 +122,31 @@ terminate.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"factorize $n$"** with $n$ up to $10^{18}$ — trial division needs $10^9$ operations,
+  this needs about $30{,}000$
+* $\tau$, $\sigma$, $\varphi$, or the divisor list **of one huge number** — all of them
+  reduce to having the factorization
+* finding a **shared prime factor** between large values, or grouping values by a common
+  prime
+* "change each element by at most $1$ so they all share a factor" — sample elements, factor
+  the few values around them, test the primes that appear
+* any problem where the input is a single number near $10^{18}$ and the answer depends on
+  its multiplicative structure
+
+**The tell.** You need the *factors*, not just primality, and the number is past $10^{12}$.
+Below that, trial division is simpler and fast enough — reaching for rho early is a common
+over-engineering mistake.
+
+**Anti-pattern.** Many numbers, all small, is the [sieve](../sieve/) with an `spf` table,
+not this. And never call rho without a primality test first: on a prime input it does not
+return.
+
+---
+
 ## Complexity
 
 | one split | $O(n^{1/4})$ expected — $\sim31{,}600$ steps at $10^{18}$ |
