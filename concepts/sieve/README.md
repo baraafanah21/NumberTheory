@@ -54,7 +54,9 @@ while (m > 1) { int p = spf[m]; while (m % p == 0) m /= p; /* p is a prime facto
 ```
 
 Each step at least halves $m$ — about 23 operations at $m = 10^7$, versus $\sim 3000$ for
-trial division. Once you can factorize instantly, $\tau$, $\sigma$, $\varphi$ all follow.
+trial division. Once you can factorize instantly, $\tau$, $\sigma$, $\varphi$ all follow —
+see [divisors](../divisors/) for the first two and
+[Euler's totient](../euler-phi/) for the third.
 
 **The linear sieve** builds it in exactly $O(n)$ by crossing out each composite **once**:
 
