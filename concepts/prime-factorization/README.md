@@ -82,6 +82,32 @@ the guarantee this returns **the** factorization, not *a* factorization.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"prime factors"**, "distinct primes", "the exponent of $p$ in $n$"
+* **"exactly $k$ divisors"** — a condition on the *shape* $\prod(e_i+1)$, so search
+  exponent patterns, not numbers
+* **perfect square / cube / $k$-th power** tests → every exponent divisible by $k$
+* **trailing zeros of $n!$**, or in an arbitrary base → Legendre's formula, one prime at a
+  time, then take the minimum
+* **square-free** conditions, or "no prime appears twice" → a bitmask over the small primes
+* exponents taken **modulo $k$** — "power products", pairs whose product is a $k$-th power
+* the product of a whole array, asked about its primes rather than its value
+* gcd and lcm reasoning stated exponent-wise, $\min$ and $\max$ per prime
+
+**The tell.** The moment a problem cares about *which* primes divide $n$ and *how often*,
+rather than about $n$ itself, you are working in exponent space. Translate the whole
+statement into exponents first; it usually becomes an independent choice per prime.
+
+**Anti-pattern.** Do not factor to compute a gcd — Euclid is far faster. The exponent
+formulas are for *understanding* and for problems that hand you the factorization cheaply.
+And past $10^{12}$, trial division is too slow; that is
+[Pollard's rho](../pollard-rho/).
+
+---
+
 ## Pitfalls
 
 | | |
