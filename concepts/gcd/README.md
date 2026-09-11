@@ -75,6 +75,32 @@ numerator, or equal fractions hash differently.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"greatest common divisor"**, "common factor", "reduce the fraction"
+* **differences** between array elements — "all leave the same remainder", "make them
+  equal by adding $d$" → gcd of the differences, as in the pattern above
+* **reachability**: steps of size $a$ and $b$, jugs, coins with unlimited supply, a robot
+  moving by two fixed amounts → you reach exactly the multiples of $\gcd(a,b)$
+* two periodic things coinciding → $\mathrm{lcm}$, computed through the gcd
+* **an invariant** that survives every allowed operation — subtraction, swapping, replacing
+  a pair by its difference. The gcd is the usual answer
+* **coprimality** as a condition, or "in lowest terms"
+* a repeating block inside a string or array — the period divides the length, and the
+  answer's length is often a gcd
+* "can the array be made all equal / all zero" by adding a fixed value
+
+**The tell.** Operations that only ever **add or subtract multiples** of existing values
+cannot change the gcd. Find the quantity the operations preserve, and it is usually this.
+
+**Anti-pattern.** A whole-array gcd of $1$ does **not** mean the elements are pairwise
+coprime: $\gcd(6,10,15) = 1$ while no pair is. If the problem needs the pairwise version,
+as [CRT](../chinese-remainder-theorem/) does, you have to check it separately.
+
+---
+
 ## Complexity
 
 | $\gcd$, $\mathrm{lcm}$ | $O(\log\min(a,b))$ |

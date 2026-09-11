@@ -93,6 +93,30 @@ answer.**
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **a division sitting inside an expression printed modulo $p$** — this is the whole signal
+* **$\binom nk \bmod p$**, and anything built from factorials
+* **probabilities and expected values** asked "modulo $10^9+7$" — the answer is a fraction
+  $\frac pq$, and they want $p\,q^{-1}$
+* averages, ratios, "the answer as an irreducible fraction modulo $p$"
+* solving $a x \equiv b \pmod m$ for $x$
+* a product you need to **undo** — removing one element from a running product
+* $\frac{r^n-1}{r-1}$ and other closed forms with a denominator
+* stars and bars, Catalan numbers, any formula with a factorial underneath
+
+**The tell.** You wrote a fraction on paper and now have to print it mod $p$. There is no
+division in modular arithmetic, so every such fraction becomes a multiplication by an
+inverse.
+
+**Anti-pattern.** Calling an inverse routine inside a loop is the standard performance
+mistake — build the $O(n)$ table, or one factorial table with a single exponentiation. And
+if the modulus is composite, Fermat is silently wrong; use extended Euclid.
+
+---
+
 ## Complexity
 
 | inverse via extended Euclid | $O(\log m)$, any $m$ |

@@ -88,6 +88,31 @@ $\max\bigl(p^2,\ \lceil L/p\rceil\,p\bigr)$. Memory is the **window**, not the r
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **many primality questions** with values below $\sim10^7$ — sieve once, globally, then
+  answer in $O(1)$
+* **"count the primes in $[l,r]$"**, repeated over many queries → sieve plus prefix sums
+* needing to **factorize many numbers** → the `spf` table, $O(\log m)$ each
+* "for every $i$ from $1$ to $n$, compute something multiplicative" → a sieve-shaped loop
+* smallest or largest prime factor of every number in a range
+* **$l$ and $r$ up to $10^{12}$ but $r-l$ small** → segmented sieve; the memory is the
+  window, not the range
+* counting numbers with exactly $k$ distinct prime factors over a range
+* any $\tau$, $\sigma$ or $\varphi$ needed for a whole range → same skeleton, different body
+
+**The tell.** The constraint that decides everything is **how many numbers** you must
+answer for, not how big they are. Many small numbers means sieve; one big number never
+does.
+
+**Anti-pattern.** Do not call the sieve once per test case — build it once at program
+start. And do not sieve when you need a single primality test of a large $n$; that is
+[Miller–Rabin](../miller-rabin/).
+
+---
+
 ## Complexity
 
 | sieve up to $n$ | $O(n\log\log n)$, $O(n)$ space |

@@ -105,6 +105,33 @@ with $n$ — and it is what makes the primitive-root theorem work.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"how many numbers are coprime to $n$"**, or fractions $\frac kn$ in lowest terms
+* **an exponent too large to use directly** — reduce it mod $\varphi(m)$, with the safe
+  $+\varphi(m)$ form when $\gcd(a,m) \neq 1$
+* a **tower of exponents** $a^{b^{c^{\cdots}}}$ → recurse, with $\varphi$ shrinking at each
+  level and reaching $1$ in $O(\log m)$ steps
+* an **inverse modulo a composite** where Fermat does not apply
+* sums over divisors, especially anything that collapses through
+  $\sum_{d\mid n}\varphi(d) = n$
+* counting pairs with a given gcd, or coprime pairs in a range
+* the **length of a cycle** in a multiplicative process — $\varphi(m)$ bounds it, and
+  [primitive roots](../primitive-roots/) sharpen it
+* "how many generators", "how many elements of order $d$"
+
+**The tell.** Coprimality is being counted, or an exponent needs to shrink. Those two uses
+cover almost every appearance.
+
+**Anti-pattern.** Reducing an exponent mod $\varphi(m)$ **without** checking
+$\gcd(a,m)=1$ is the classic silent error: $2^4 \equiv 0 \pmod 4$ but
+$2^{4 \bmod \varphi(4)} = 1$. And for a one-off inverse, extended Euclid beats Euler,
+because $\varphi(m)$ costs a factorization.
+
+---
+
 ## Complexity
 
 | $\varphi(n)$ for one $n$ | $O(\sqrt n)$ |
