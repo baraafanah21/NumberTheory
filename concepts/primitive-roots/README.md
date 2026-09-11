@@ -72,6 +72,31 @@ time and memory.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"the smallest $k$ with $a^k \equiv 1$"** — that is the multiplicative order
+* **cycle length** of a repeated multiplication, or when a sequence returns to its start
+* **"the smallest repunit divisible by $K$"**, or the period of a decimal expansion — both
+  are orders, and they exist only when $\gcd(K,10)=1$
+* solving **$g^x \equiv b \pmod m$** for $x$ → discrete log, meet in the middle at
+  $O(\sqrt m)$
+* "count the generators mod $p$" → $\varphi(p-1)$
+* a product recurrence you want to turn into a **linear** one → take discrete logs, and the
+  exponents live mod $p-1$
+* anything phrased as "the powers of $g$ hit every residue"
+
+**The tell.** The question is about **when a power repeats**, not what the power equals.
+Orders divide $\varphi(m)$, so the search space is the divisors of $\varphi(m)$ and never
+larger.
+
+**Anti-pattern.** This is the least common of the essential topics in contests below
+about 2000 rating. Confirm the problem really needs an order before reaching for it — often
+a plain cycle detection over at most $m$ states is simpler and fast enough.
+
+---
+
 ## Complexity
 
 | $\mathrm{ord}_m(a)$ | $O(\sqrt m)$ to factor $\varphi(m)$, then $O(\log^2 m)$ |
