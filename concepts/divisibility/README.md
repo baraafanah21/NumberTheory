@@ -6,7 +6,7 @@ Defined by **multiplication**, not division — no fractions appear anywhere. In
 `b % a == 0`.
 
 **Use:** divisors, sieves, perfect-square tricks. **Next:**
-[gcd](../gcd/)
+[gcd](../gcd/) · [divisors](../divisors/)
 
 ---
 
@@ -39,6 +39,9 @@ $3{\times}12$, $4{\times}9$, $6{\times}6$.
 
 **$\tau(n)$ is odd $\iff n$ is a perfect square** — pairs contribute $2$ each, unless some
 divisor is its own partner ($d = n/d$).
+
+> $\tau$ and $\sigma$ get their formulas, their range versions and their growth rates in
+> [divisors](../divisors/). This folder owns the $O(\sqrt n)$ loop they are built on.
 
 **Trap.** $d \mid ab$ does **not** give $d \mid a$ or $d \mid b$: $6 \mid 4{\times}9$ but
 $6$ divides neither. It needs $d$ **prime** — see
