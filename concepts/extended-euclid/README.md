@@ -60,6 +60,31 @@ except now you learn *how many* of each step.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **$ax + by = c$ in integers** — stated directly, or as a line $Ax+By+C=0$ asked for a
+  lattice point
+* **"can you make exactly $c$"** using unlimited $\pm a$ and $\pm b$ steps → solvable iff
+  $\gcd(a,b) \mid c$
+* buying/selling two items at fixed prices to hit an exact total
+* **a linear congruence** $ax \equiv b \pmod m$ — the same equation with $y$ hidden
+* **"smallest non-negative $x$"** satisfying a congruence → solve, then shift by $b/g$
+* a [modular inverse](../modular-inverse/) on a modulus that is **not prime**
+* merging two congruences → [CRT](../chinese-remainder-theorem/), which is this underneath
+* counting how many solutions lie in a range
+
+**The tell.** Two unknowns, one linear equation, integers only. That under-determined shape
+is exactly what Bézout resolves, and the answer is always a one-parameter family rather
+than a single point.
+
+**Anti-pattern.** If you only need to know *whether* it is solvable, plain
+[gcd](../gcd/) answers that — you do not need the coefficients. Reach for `extgcd` when you
+need the actual $x$ and $y$.
+
+---
+
 ## Complexity
 
 | `extgcd`, solving $ax+by=c$ | $O(\log\min(a,b))$ |
