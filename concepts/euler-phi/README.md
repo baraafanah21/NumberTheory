@@ -6,7 +6,7 @@ How many numbers up to $n$ are **coprime to $n$**.
 
 **Use:** inverses modulo a **composite**, reducing huge exponents, counting coprime pairs.
 **Needs:** [modular inverse](../modular-inverse/) ·
-[sieve](../sieve/) **Next:**
+[sieve](../sieve/) · [fast power](../fast-power/) **Next:**
 [primitive roots](../primitive-roots/)
 
 ---
