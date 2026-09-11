@@ -86,6 +86,28 @@ seed.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"is $n$ prime"** with $n$ up to $10^{18}$ — a single number, far past any sieve
+* constraints around $10^{12}$ to $10^{18}$ on a value whose primality decides the answer
+* a factored expression that is prime only in one case — $a^2-b^2 = (a-b)(a+b)$ is prime
+  only when $a-b=1$ and $a+b$ is prime
+* **few queries, huge values**; the opposite of the sieve's profile
+* checking whether a constructed candidate is prime inside a search loop
+* as the **stopping rule** inside [Pollard's rho](../pollard-rho/), where it is not an
+  optimisation but what makes the recursion terminate
+
+**The tell.** Count the numbers you must test. One or a handful of large ones is
+Miller–Rabin; a whole range of small ones is the [sieve](../sieve/).
+
+**Anti-pattern.** Do not use a plain Fermat test — Carmichael numbers such as $561$ pass
+for every coprime base, and there are infinitely many. And do not use two or three random
+bases and call it proof when a known deterministic set covers all 64-bit inputs.
+
+---
+
 ## Complexity
 
 | one base                       | $O(\log n)$ modular multiplications          |
