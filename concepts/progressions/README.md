@@ -55,6 +55,32 @@ Only $+$ and $\times$, so it is valid for **any** modulus.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"sum of the first $n$"** with $n$ up to $10^{18}$ — a loop is impossible, so a closed
+  form exists and the problem is about finding it
+* evenly spaced values: consecutive integers, every $k$-th element, "all multiples of $d$"
+* **"sum of all multiples of $d$ below $n$"** — an AP with $k = \lfloor n/d\rfloor$ terms,
+  answered in $O(1)$
+* a quantity that **doubles or halves** each step → geometric, not arithmetic
+* expressions shaped like $2^n - 1$, $r^n - 1$, or "a number made of $n$ copies of a digit"
+  → the identity $(a-b) \mid (a^n - b^n)$
+* **"write $n$ as a sum of consecutive integers"** — solve $n = \frac{k(2a+k-1)}{2}$ over
+  the divisors of $2n$
+* triangular numbers, handshakes, pairs from $n$ items → $\frac{n(n+1)}{2}$
+* an average or a mean stated as a constraint — multiply through and it becomes a sum
+
+**The tell.** The input is a formula's worth of parameters, not an array. When $n$ is a
+*bound* rather than a list length, you are being asked for a closed form.
+
+**Anti-pattern.** If the terms are not evenly spaced and not in constant ratio, this is not
+a progression — do not force it. And if the closed form needs a division under a modulus,
+use the splitting recurrence above rather than reaching for an inverse that may not exist.
+
+---
+
 ## Complexity
 
 | AP term, AP sum, sum of multiples | $O(1)$ |
