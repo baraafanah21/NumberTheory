@@ -76,6 +76,32 @@ sum for $11$, last $j$ digits for $2^j$ and $5^j$.
 
 ---
 
+## How to recognize it in a problem
+
+Look for:
+
+* **"divisible by"**, "is a multiple of", "leaves remainder $r$"
+* **"how many numbers in $[1,n]$ are divisible by $d$"** → $\lfloor n/d\rfloor$, with no
+  loop at all
+* several such conditions at once → inclusion–exclusion over $\lfloor n/d\rfloor$
+* **"exactly $k$ divisors"**, "count the factors" → [divisors](../divisors/)
+* a number given as a **string** because it does not fit in any integer type → digit tests
+  for $3$, $9$, $11$, or the last $j$ digits for $2^j$ and $5^j$
+* toggling, switching, lockers, bulbs → $\tau(n)$ parity, so the answer is the perfect
+  squares
+* **"for each $d$, do something to its multiples"** → the $O(n\log n)$ skeleton
+* the lcm of a fixed small set, then counting its multiples
+
+**The tell.** Whenever you are about to write "for each $x$, loop over its divisors",
+invert it into "for each $d$, loop over its multiples". Identical answers, $O(n\log n)$
+instead of $O(n\sqrt n)$.
+
+**Anti-pattern.** $d \mid ab$ does **not** give $d \mid a$ or $d \mid b$ unless $d$ is
+prime — see [gcd](../gcd/). Reasoning that splits a composite across a product is the most
+common wrong step in this area.
+
+---
+
 ## Complexity
 
 | test $a \mid b$ | $O(1)$ |
