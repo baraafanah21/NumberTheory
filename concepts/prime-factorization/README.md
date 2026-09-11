@@ -37,7 +37,8 @@ difference.
 
 $$d \mid n \quad\Longleftrightarrow\quad d = \prod p_i^{f_i} \ \text{ with } \ 0 \le f_i \le e_i$$
 
-so, with each formula proved elsewhere in the repo:
+so, with each formula proved elsewhere in the repo — $\tau$ and $\sigma$ are worked out in
+full in [divisors](../divisors/), $\varphi$ in [Euler's totient](../euler-phi/):
 
 $$\tau(n) = \prod_i (e_i+1), \qquad
 \sigma(n) = \prod_i \frac{p_i^{\,e_i+1}-1}{p_i-1}, \qquad

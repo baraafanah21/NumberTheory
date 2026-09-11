@@ -7,7 +7,8 @@ Trial division costs $O(\sqrt n)$, which is $10^9$ operations at $n = 10^{18}$. 
 does it in a few hundred multiplications.
 
 **Use:** primality of a single large number. **Needs:**
-[modular inverse](../modular-inverse/) (Fermat's little theorem).
+[modular inverse](../modular-inverse/) (Fermat's little theorem) ·
+[fast power](../fast-power/) (every base test is one `powMod`).
 **Complements:** [sieve](../sieve/), which handles _many small_ numbers.
 **Next:** [Pollard's rho](../pollard-rho/), which turns "composite" into the
 actual factors.

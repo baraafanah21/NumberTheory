@@ -6,7 +6,7 @@ A sequence built by repeating one operation: **add** $d$ each step (arithmetic) 
 $$3,\ 7,\ 11,\ 15 \quad (d=4) \qquad\qquad 3,\ 6,\ 12,\ 24 \quad (r=2)$$
 
 **Use:** summing a sequence when $n$ is too large to loop. **Next:**
-[divisibility](../divisibility/)
+[divisibility](../divisibility/) · [fast power](../fast-power/)
 
 ---
 
