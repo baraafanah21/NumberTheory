@@ -90,7 +90,7 @@ One sentence, phrased as a trigger for next time — the pattern, not the proble
 | **main / secondary concept** | so the problem shows up when you reread that folder |
 | **key observation** | the reusable part; the rest is implementation |
 | **my approach** | preserves the dead ends, which is what you actually forget |
-| **mistakes** | feeds the `mistakes/` section when a pattern repeats across problems |
+| **mistakes** | feeds [mistakes/](../mistakes/README.md) when a pattern repeats across problems |
 | **what to remember** | written as a *recognition trigger*, matching the concept READMEs |
 
 Skip **difficulty** if the judge does not publish one. Skip **why that is true** when the
