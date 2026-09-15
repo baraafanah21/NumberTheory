@@ -1,36 +1,48 @@
 # NumberTheory
+
 Recently, I wasted a lot of time jumping between books and resources. To help you avoid the same mistake, here’s my condensed path with extra details you can skip if needed.
 A personal number theory repository, built one concept at a time — each one small, proved
 properly, and paired with the applied code that actually gets used.
 
-**Read them in this order** — each one uses the ones before it:
+**Read the concepts in this order** — each one uses the ones before it. After concept
+15, use the linked reference and problem-solving guides.
 
-| # | Concept | What you get from it |
-|---|---|---|
-| 1 | [Progressions](concepts/progressions/) | summing a sequence without looping |
-| 2 | [Divisibility](concepts/divisibility/) | divisors in $O(\sqrt n)$, sieves, digit tests |
-| 3 | [GCD and the Euclidean algorithm](concepts/gcd/) | gcd, lcm, coprimality, reachability |
-| 4 | [Unique factorization](concepts/prime-factorization/) | why prime factorization is *the* factorization |
-| 5 | [Extended Euclidean algorithm](concepts/extended-euclid/) | Bézout coefficients, $ax+by=c$, CRT |
-| 6 | [Modular multiplicative inverse](concepts/modular-inverse/) | dividing under a modulus, $\binom{n}{k} \bmod p$ |
-| 7 | [Chinese remainder theorem](concepts/chinese-remainder-theorem/) | combining congruences, splitting a computation |
-| 8 | [Sieve of Eratosthenes](concepts/sieve/) | all primes up to $n$, fast factorization |
-| 9 | [Euler's totient function](concepts/euler-phi/) | inverses for any modulus, huge exponents |
-| 10 | [Primitive roots and discrete log](concepts/primitive-roots/) | cycle lengths, generators, solving $g^x \equiv b$ |
-| 11 | [Miller–Rabin primality test](concepts/miller-rabin/) | is *this* number prime, for $n$ up to $10^{18}$ |
-| 12 | [Pollard's rho factorization](concepts/pollard-rho/) | the *factors* of one number, in $O(n^{1/4})$ |
+| #   | Concept                                                          | What you get from it                              |
+| --- | ---------------------------------------------------------------- | ------------------------------------------------- |
+| 1   | [Progressions](concepts/progressions/)                           | summing a sequence without looping                |
+| 2   | [Divisibility](concepts/divisibility/)                           | divisors in $O(\sqrt n)$, sieves, digit tests     |
+| 3   | [Divisors](concepts/divisors/)                                   | enumerate and count divisors                      |
+| 4   | [GCD and the Euclidean algorithm](concepts/gcd/)                 | gcd, lcm, coprimality, reachability               |
+| 5   | [Unique factorization](concepts/prime-factorization/)            | why prime factorization is _the_ factorization    |
+| 6   | [Extended Euclidean algorithm](concepts/extended-euclid/)        | Bézout coefficients, $ax+by=c$, CRT               |
+| 7   | [Modular arithmetic](concepts/modular-arithmetic/)               | congruences, normalization, safe operations       |
+| 8   | [Modular multiplicative inverse](concepts/modular-inverse/)      | dividing under a modulus, $\binom{n}{k} \bmod p$  |
+| 9   | [Fast power](concepts/fast-power/)                               | computing $a^b \bmod m$ in $O(\log b)$            |
+| 10  | [Chinese remainder theorem](concepts/chinese-remainder-theorem/) | combining congruences, splitting a computation    |
+| 11  | [Sieve of Eratosthenes](concepts/sieve/)                         | all primes up to $n$, fast factorization          |
+| 12  | [Euler's totient function](concepts/euler-phi/)                  | inverses for any modulus, huge exponents          |
+| 13  | [Primitive roots and discrete log](concepts/primitive-roots/)    | cycle lengths, generators, solving $g^x \equiv b$ |
+| 14  | [Miller–Rabin primality test](concepts/miller-rabin/)            | is _this_ number prime, for $n$ up to $10^{18}$   |
+| 15  | [Pollard's rho factorization](concepts/pollard-rho/)             | the _factors_ of one number, in $O(n^{1/4})$      |
+
+After the concepts, use [connections](connections/README.md) for the mental map,
+[patterns](patterns/README.md) to choose a technique from a problem statement,
+[cheatsheet](cheatsheet/README.md) for a compact reference, and
+[mistakes](mistakes/README.md) when an answer goes wrong.
 
 ```text
-1. progressions ──┐
-                  │                     ┌──→ 4. unique factorization ──┐
-2. divisibility ──┼──→ 3. gcd & Euclid ─┤                              │
-                  │                     └──→ 5. extended Euclid ──┬──→ 6. modular inverse
-                  │                                               │       │        │
-                  │                                               └→ 7. CRT ←┘     │
-                  │                                                       11. Miller–Rabin ──→ 12. rho
-                  └──→ 8. sieve ──────────────────────────→ 9. Euler's totient
-                                                                    │
-                                                    10. primitive roots ←┘
+1. progressions ──→ 2. divisibility ──→ 3. divisors
+           │                    │
+           └──→ 4. gcd ──→ 5. factorization ──→ 11. sieve
+              │       │          │              │
+              └──→ 6. extended Euclid           └──→ 12. phi
+               │       │                    │
+             7. modular arithmetic ──→ 8. inverse
+                  │       │
+                9. fast power    └──→ 10. CRT
+                       │
+              13. primitive roots          │
+              14. Miller–Rabin ──→ 15. rho
 ```
 
 **Primes: which tool.** Many numbers below $10^7$ → the **sieve** (8). One number up to
@@ -56,7 +68,7 @@ what makes the formulas in 8 and 9 well defined.
 
 - Maths is written in LaTeX, so it renders on GitHub and in the VS Code preview
   (`Ctrl+Shift+V`).
-- When a concept uses a result it does not prove, it says so and links to where it *is*
+- When a concept uses a result it does not prove, it says so and links to where it _is_
   proved.
 - Every `implementation.cpp` compiles clean under `g++ -std=c++17 -Wall -Wextra`, and its
   demo verifies its own output against brute force.
