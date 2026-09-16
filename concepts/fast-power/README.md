@@ -131,4 +131,4 @@ consecutive $n$, a precomputed table beats a $\log$ call per query.
 
 ---
 
-[implementation.cpp](implementation.cpp) · [problems.md](problems.md)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
