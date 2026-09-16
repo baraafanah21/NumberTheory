@@ -9,17 +9,19 @@ tool that answers it.
 ## The mental map
 
 ```text
-progressions ───────────────┐
-                            ├──→ divisibility ──→ divisors
-gcd ──→ extended Euclid ────┤          │             │
-  │             │           │          └──→ sieve ───┼──→ prime factorization
-  │             └──→ CRT    │                         │          │
-  └──→ modular arithmetic ──┴──→ modular inverse ─────┤          │
-                                    │                 └──→ Euler phi
-                                    └──→ fast power
+divisibility ──→ divisors
+│
+└──→ sieve ──→ prime factorization ──→ Euler phi
+                                       │
+                                       └──→ primitive roots ──→ discrete log
 
-                          primitive roots ──→ discrete logarithm
-                          Miller-Rabin ──→ Pollard rho
+gcd ──┬──→ extended Euclid ──→ CRT
+      │
+      └──→ modular arithmetic ──┬──→ modular inverse
+                                │
+                                └──→ fast power ──→ Miller-Rabin ──→ Pollard rho
+
+progressions — closed forms; independent of everything above
 ```
 
 The arrows mean **often depends on**, not "must be read immediately before". For
