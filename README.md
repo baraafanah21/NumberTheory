@@ -31,26 +31,31 @@ After the concepts, use [connections](connections/README.md) for the mental map,
 [mistakes](mistakes/README.md) when an answer goes wrong.
 
 ```text
-1. progressions ──→ 2. divisibility ──→ 3. divisors
-           │                    │
-           └──→ 4. gcd ──→ 5. factorization ──→ 11. sieve
-              │       │          │              │
-              └──→ 6. extended Euclid           └──→ 12. phi
-               │       │                    │
-             7. modular arithmetic ──→ 8. inverse
-                  │       │
-                9. fast power    └──→ 10. CRT
+2 divisibility ──→ 3 divisors
+  │
+  └──→ 4 gcd ──→ 5 factorization ──→ 11 sieve
+         │         │
+         │         └──→ 12 phi ──→ 13 primitive roots
+         │
+         └──→ 6 extended Euclid ──→ 10 CRT
+
+7 modular arithmetic ──┬──→ 8 inverse
                        │
-              13. primitive roots          │
-              14. Miller–Rabin ──→ 15. rho
+                       └──→ 9 fast power ──→ 14 Miller–Rabin ──→ 15 rho
+
+1 progressions — closed forms; independent of everything above
 ```
 
-**Primes: which tool.** Many numbers below $10^7$ → the **sieve** (8). One number up to
-$10^{18}$ → **Miller–Rabin** (11). Its **factors** → **Pollard's rho** (12), which calls
+The two tracks meet at **8, the modular inverse**: extended Euclid (6) gives it on any
+modulus, while fast power (9) and phi (12) give it on a prime one. Primitive roots (13)
+need both phi and fast power.
+
+**Primes: which tool.** Many numbers below $10^7$ → the **sieve** (11). One number up to
+$10^{18}$ → **Miller–Rabin** (14). Its **factors** → **Pollard's rho** (15), which calls
 Miller–Rabin to know when to stop splitting.
 
-Concept 3 proves **Euclid's lemma**, which is what makes concept 4 true — and concept 4 is
-what makes the formulas in 8 and 9 well defined.
+Concept 4 proves **Euclid's lemma**, which is what makes concept 5 true — and concept 5 is
+what makes the formulas in 11 and 12 well defined.
 
 ## What is in each folder
 
