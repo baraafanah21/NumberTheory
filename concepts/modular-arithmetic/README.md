@@ -154,4 +154,4 @@ multiplication.
 
 ---
 
-[implementation.cpp](implementation.cpp) · [problems.md](problems.md)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
