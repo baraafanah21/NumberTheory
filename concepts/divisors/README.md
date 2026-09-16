@@ -149,4 +149,4 @@ needs them for *every* number in a range, do not trial-divide each one.
 
 ---
 
-[implementation.cpp](implementation.cpp) · [problems.md](problems.md)
+[proofs.md](proofs.md) · [implementation.cpp](implementation.cpp) · [problems.md](problems.md)
