@@ -9,32 +9,48 @@ tool that answers it.
 ## The mental map
 
 ```mermaid
-flowchart LR
-    subgraph div ["Divisibility and primes"]
-        DIV["divisibility"] --> DVS["divisors"]
-        DIV --> SV["sieve"]
-        SV --> PF["prime factorization"]
-        PF --> PHI["Euler phi"]
-        PHI --> PR["primitive roots"]
-        PR --> DL["discrete log"]
+flowchart TD
+    subgraph foundations ["Foundations"]
+        DIV["divisibility"]
+        PROG["progressions<br/><i>closed forms, standalone</i>"]
     end
 
-    subgraph mod ["GCD and congruences"]
-        GCD["gcd"] --> EE["extended Euclid"]
-        EE --> CRT["CRT"]
-        GCD --> MA["modular arithmetic"]
+    subgraph gcdtrack ["GCD and factors"]
+        GCD["gcd"] --> PF["prime factorization"]
+        GCD --> EE["extended Euclid"]
+        PF --> DVS["divisors"]
+    end
+
+    subgraph modtrack ["Congruences"]
+        MA["modular arithmetic"] --> FP["fast power"]
         MA --> INV["modular inverse"]
-        MA --> FP["fast power"]
-        FP --> MR["Miller-Rabin"]
-        MR --> RHO["Pollard rho"]
+        FP --> INV
+        INV --> CRT["CRT"]
     end
 
-    PROG["progressions<br/><i>closed forms, independent</i>"]
+    subgraph primetrack ["Primes"]
+        SV["sieve"] --> MR["Miller-Rabin"]
+        MR --> RHO["Pollard rho"]
+        SV --> PHI["Euler phi"]
+        PHI --> PR["primitive roots<br/>and discrete log"]
+    end
+
+    DIV --> GCD
+    DIV --> DVS
+    DIV --> MA
+    DIV --> SV
+    EE --> INV
+    INV --> PHI
+    FP --> PHI
+    INV --> MR
+    FP --> MR
+    GCD --> RHO
 ```
 
-The arrows mean **often depends on**, not "must be read immediately before". For
-example, Pollard rho uses fast modular multiplication and Miller-Rabin, while CRT
-uses gcd and extended Euclid when the moduli are not assumed coprime.
+An arrow from A to B means **B needs A**. The arrows come from the **Needs** line at
+the top of each concept. They show what you must already know, which is not always the
+order you use the tools in. For example, CRT needs the modular inverse, but when the
+moduli are not coprime it also checks compatibility with a gcd and extended Euclid.
 
 ## Four routes through the map
 
