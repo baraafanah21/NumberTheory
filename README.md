@@ -1,11 +1,73 @@
-# NumberTheory
+# Number Theory
 
-Recently, I wasted a lot of time jumping between books and resources. To help you avoid the same mistake, here’s my condensed path with extra details you can skip if needed.
-A personal number theory repository, built one concept at a time — each one small, proved
-properly, and paired with the applied code that actually gets used.
+> A practical Number Theory knowledge base for Competitive Programming.
 
-**Read the concepts in this order** — each one uses the ones before it. After concept
-15, use the linked reference and problem-solving guides.
+[![Language](https://img.shields.io/badge/Language-C%2B%2B17-blue)](concepts/)
+[![Focus](https://img.shields.io/badge/Focus-Competitive%20Programming-green)](problems/)
+[![Last commit](https://img.shields.io/github/last-commit/baraafanah21/NumberTheory)](https://github.com/baraafanah21/NumberTheory/commits/main)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
+```text
+┌─────────────────────────────────────┐
+│ Concepts → Patterns → Problems      │
+│ Theory   → Practice → Improvement   │
+└─────────────────────────────────────┘
+```
+
+I spent a lot of time jumping between books and resources. This is the condensed path I
+wish I had: one concept at a time, each one small, proved properly, and paired with the
+code that actually gets used in contests. The extra detail is there if you want it and
+safe to skip if you don't.
+
+## Contents
+
+- [Roadmap](#roadmap)
+- [Concepts](#concepts)
+- [Explore the repository](#explore-the-repository)
+- [What is in each concept folder](#what-is-in-each-concept-folder)
+- [Conventions](#conventions)
+- [License](#license)
+
+## Roadmap
+
+**Read the concepts in this order.** Each one uses the ones before it. Solid arrows are
+the main dependencies. Dotted arrows are the extra links explained below the map.
+
+```mermaid
+flowchart TD
+    P1["1 · Progressions"]
+
+    D2["2 · Divisibility"] --> D3["3 · Divisors"]
+    D2 --> G4["4 · GCD"]
+    G4 --> F5["5 · Factorization"]
+    F5 --> S11["11 · Sieve"]
+    F5 --> E12["12 · Euler phi"]
+    E12 --> R13["13 · Primitive roots"]
+    G4 --> X6["6 · Extended Euclid"]
+    X6 --> C10["10 · CRT"]
+
+    M7["7 · Modular arithmetic"] --> I8["8 · Modular inverse"]
+    M7 --> W9["9 · Fast power"]
+    W9 --> MR14["14 · Miller–Rabin"]
+    MR14 --> PR15["15 · Pollard's rho"]
+
+    X6 -.-> I8
+    W9 -.-> I8
+    E12 -.-> I8
+    W9 -.-> R13
+```
+
+- **The two tracks meet at 8, the modular inverse.** Extended Euclid (6) gives it for any
+  modulus. Fast power (9) and phi (12) give it for a prime modulus.
+- **Primitive roots (13)** need both phi and fast power.
+- **Progressions (1)** are closed forms and don't depend on anything else.
+- **Which prime tool?** For many numbers below $10^7$, use the **sieve** (11). For one
+  number up to $10^{18}$, use **Miller–Rabin** (14). To get its **factors**, use
+  **Pollard's rho** (15), which calls Miller–Rabin to know when to stop splitting.
+- Concept 4 proves **Euclid's lemma**, which is what makes concept 5 true. Concept 5 in
+  turn is what makes the formulas in 11 and 12 well defined.
+
+## Concepts
 
 | #   | Concept                                                          | What you get from it                              |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------- |
@@ -25,59 +87,47 @@ properly, and paired with the applied code that actually gets used.
 | 14  | [Miller–Rabin primality test](concepts/miller-rabin/)            | is _this_ number prime, for $n$ up to $10^{18}$   |
 | 15  | [Pollard's rho factorization](concepts/pollard-rho/)             | the _factors_ of one number, in $O(n^{1/4})$      |
 
-After the concepts, use [connections](connections/README.md) for the mental map,
-[patterns](patterns/README.md) to choose a technique from a problem statement,
-[cheatsheet](cheatsheet/README.md) for a compact reference, and
-[mistakes](mistakes/README.md) when an answer goes wrong.
+## Explore the repository
 
-```text
-2 divisibility ──→ 3 divisors
-  │
-  └──→ 4 gcd ──→ 5 factorization ──→ 11 sieve
-         │         │
-         │         └──→ 12 phi ──→ 13 primitive roots
-         │
-         └──→ 6 extended Euclid ──→ 10 CRT
+After the concepts, use these sections:
 
-7 modular arithmetic ──┬──→ 8 inverse
-                       │
-                       └──→ 9 fast power ──→ 14 Miller–Rabin ──→ 15 rho
+|     | Section                                  | Use it when                                          |
+| --- | ---------------------------------------- | ---------------------------------------------------- |
+| 📚  | [Concepts](concepts/)                    | you want to learn a tool and why it works            |
+| 🗺️  | [Connections](connections/README.md)     | you want to see how the tools fit together           |
+| 🧠  | [Patterns](patterns/README.md)           | you have a problem statement and need to pick a tool |
+| ⚡  | [Templates](templates/README.md)         | you need contest-ready code to paste                 |
+| 🏆  | [Problems](problems/README.md)           | you want practice, sorted by rating                  |
+| 🐛  | [Mistakes](mistakes/README.md)           | an answer is wrong and you don't know why            |
+| 📋  | [Cheatsheet](cheatsheet/README.md)       | you need a quick reference before a contest          |
 
-1 progressions — closed forms; independent of everything above
-```
+## What is in each concept folder
 
-The two tracks meet at **8, the modular inverse**: extended Euclid (6) gives it on any
-modulus, while fast power (9) and phi (12) give it on a prime one. Primitive roots (13)
-need both phi and fast power.
-
-**Primes: which tool.** Many numbers below $10^7$ → the **sieve** (11). One number up to
-$10^{18}$ → **Miller–Rabin** (14). Its **factors** → **Pollard's rho** (15), which calls
-Miller–Rabin to know when to stop splitting.
-
-Concept 4 proves **Euclid's lemma**, which is what makes concept 5 true — and concept 5 is
-what makes the formulas in 11 and 12 well defined.
-
-## What is in each folder
-
-- **`README.md`** — the idea in plain language, the formulas with every symbol named, the
+- **`README.md`**: the idea in plain language, the formulas with every symbol named, the
   one or two algorithms you actually implement, and the mistakes that cost you.
-- **`proofs.md`** — why each formula is true. Every proof states the claim, explains it in
+- **`proofs.md`**: why each formula is true. Every proof states the claim, explains it in
   words, proves it, then says which line of code it justifies.
-- **`implementation.cpp`** — only the functions that matter, with complexities, plus a demo
-  that checks itself.
-- **`problems.md`** — ten problems, by hand then in code then harder, with worked answers.
-  Every check value in them was computed, so a mismatch means a bug in your code. Each ends
-  with a table of **Codeforces and LeetCode problems** that drill the same idea.
+- **`implementation.cpp`**: only the functions that matter, with their complexities, plus
+  a demo that checks itself.
+- **`problems.md`**: ten problems, solved by hand, then in code, then harder versions,
+  with worked answers. Every check value in them was computed, so a mismatch means a bug
+  in your code. Each file ends with a table of **Codeforces and LeetCode problems** that
+  drill the same idea.
 
 ## Conventions
 
 - Maths is written in LaTeX, so it renders on GitHub and in the VS Code preview
   (`Ctrl+Shift+V`).
-- When a concept uses a result it does not prove, it says so and links to where it _is_
+- When a concept uses a result it doesn't prove, it says so and links to where it _is_
   proved.
-- Every `implementation.cpp` compiles clean under `g++ -std=c++17 -Wall -Wextra`, and its
-  demo verifies its own output against brute force.
+- Every `implementation.cpp` compiles cleanly under `g++ -std=c++17 -Wall -Wextra`, and
+  its demo checks its own output against brute force.
+- Folders and files are named in `kebab-case`.
 
 ```sh
 g++ -std=c++17 -O2 -o demo concepts/divisibility/implementation.cpp && ./demo
 ```
+
+## License
+
+[MIT](LICENSE). Use it, copy it, learn from it.
