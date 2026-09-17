@@ -8,20 +8,28 @@ tool that answers it.
 
 ## The mental map
 
-```text
-divisibility ──→ divisors
-│
-└──→ sieve ──→ prime factorization ──→ Euler phi
-                                       │
-                                       └──→ primitive roots ──→ discrete log
+```mermaid
+flowchart LR
+    subgraph div ["Divisibility and primes"]
+        DIV["divisibility"] --> DVS["divisors"]
+        DIV --> SV["sieve"]
+        SV --> PF["prime factorization"]
+        PF --> PHI["Euler phi"]
+        PHI --> PR["primitive roots"]
+        PR --> DL["discrete log"]
+    end
 
-gcd ──┬──→ extended Euclid ──→ CRT
-      │
-      └──→ modular arithmetic ──┬──→ modular inverse
-                                │
-                                └──→ fast power ──→ Miller-Rabin ──→ Pollard rho
+    subgraph mod ["GCD and congruences"]
+        GCD["gcd"] --> EE["extended Euclid"]
+        EE --> CRT["CRT"]
+        GCD --> MA["modular arithmetic"]
+        MA --> INV["modular inverse"]
+        MA --> FP["fast power"]
+        FP --> MR["Miller-Rabin"]
+        MR --> RHO["Pollard rho"]
+    end
 
-progressions — closed forms; independent of everything above
+    PROG["progressions<br/><i>closed forms, independent</i>"]
 ```
 
 The arrows mean **often depends on**, not "must be read immediately before". For
