@@ -30,42 +30,50 @@ safe to skip if you don't.
 
 ## Roadmap
 
-**Read the concepts in this order.** Each one uses the ones before it. Solid arrows are
-the main dependencies. Dotted arrows are the extra links explained below the map.
+**Read the concepts in this order.** Each one uses only the ones before it. An arrow
+means "is needed by", taken from the **Needs** line at the top of each concept.
 
 ```mermaid
 flowchart TD
     P1["1 · Progressions"]
 
-    D2["2 · Divisibility"] --> D3["3 · Divisors"]
-    D2 --> G4["4 · GCD"]
-    G4 --> F5["5 · Factorization"]
-    F5 --> S11["11 · Sieve"]
-    F5 --> E12["12 · Euler phi"]
+    D2["2 · Divisibility"] --> G3["3 · GCD"]
+    D2 --> S11["11 · Sieve"]
+    D2 --> M7["7 · Modular arithmetic"]
+    D2 --> V5["5 · Divisors"]
+
+    G3 --> F4["4 · Factorization"]
+    G3 --> X6["6 · Extended Euclid"]
+    F4 --> V5
+
+    M7 --> W8["8 · Fast power"]
+    M7 --> I9["9 · Modular inverse"]
+    X6 --> I9
+    W8 --> I9
+    I9 --> C10["10 · CRT"]
+
+    I9 --> E12["12 · Euler phi"]
+    W8 --> E12
+    S11 --> E12
     E12 --> R13["13 · Primitive roots"]
-    G4 --> X6["6 · Extended Euclid"]
-    X6 --> C10["10 · CRT"]
 
-    M7["7 · Modular arithmetic"] --> I8["8 · Modular inverse"]
-    M7 --> W9["9 · Fast power"]
-    W9 --> MR14["14 · Miller–Rabin"]
+    I9 --> MR14["14 · Miller–Rabin"]
+    W8 --> MR14
+    S11 --> MR14
     MR14 --> PR15["15 · Pollard's rho"]
-
-    X6 -.-> I8
-    W9 -.-> I8
-    E12 -.-> I8
-    W9 -.-> R13
+    G3 --> PR15
 ```
 
-- **The two tracks meet at 8, the modular inverse.** Extended Euclid (6) gives it for any
-  modulus. Fast power (9) and phi (12) give it for a prime modulus.
-- **Primitive roots (13)** need both phi and fast power.
 - **Progressions (1)** are closed forms and don't depend on anything else.
+- **The gcd track and the modular track meet at 9, the modular inverse.** Extended
+  Euclid (6) finds it for any modulus. Fast power (8) finds it for a prime modulus.
+- **Euler phi (12)** combines three earlier tools: the sieve, fast power and the
+  inverse. Primitive roots (13) build on it.
 - **Which prime tool?** For many numbers below $10^7$, use the **sieve** (11). For one
   number up to $10^{18}$, use **Miller–Rabin** (14). To get its **factors**, use
   **Pollard's rho** (15), which calls Miller–Rabin to know when to stop splitting.
-- Concept 4 proves **Euclid's lemma**, which is what makes concept 5 true. Concept 5 in
-  turn is what makes the formulas in 11 and 12 well defined.
+- Concept 3 proves **Euclid's lemma**, which is what makes concept 4 true. Concept 4 in
+  turn is what makes the formulas in 5 and 12 well defined.
 
 ## Concepts
 
@@ -73,13 +81,13 @@ flowchart TD
 | --- | ---------------------------------------------------------------- | ------------------------------------------------- |
 | 1   | [Progressions](concepts/progressions/)                           | summing a sequence without looping                |
 | 2   | [Divisibility](concepts/divisibility/)                           | divisors in $O(\sqrt n)$, sieves, digit tests     |
-| 3   | [Divisors](concepts/divisors/)                                   | enumerate and count divisors                      |
-| 4   | [GCD and the Euclidean algorithm](concepts/gcd/)                 | gcd, lcm, coprimality, reachability               |
-| 5   | [Unique factorization](concepts/prime-factorization/)            | why prime factorization is _the_ factorization    |
+| 3   | [GCD and the Euclidean algorithm](concepts/gcd/)                 | gcd, lcm, coprimality, reachability               |
+| 4   | [Unique factorization](concepts/prime-factorization/)            | why prime factorization is _the_ factorization    |
+| 5   | [Divisors](concepts/divisors/)                                   | enumerate and count divisors                      |
 | 6   | [Extended Euclidean algorithm](concepts/extended-euclid/)        | Bézout coefficients, $ax+by=c$, CRT               |
 | 7   | [Modular arithmetic](concepts/modular-arithmetic/)               | congruences, normalization, safe operations       |
-| 8   | [Modular multiplicative inverse](concepts/modular-inverse/)      | dividing under a modulus, $\binom{n}{k} \bmod p$  |
-| 9   | [Fast power](concepts/fast-power/)                               | computing $a^b \bmod m$ in $O(\log b)$            |
+| 8   | [Fast power](concepts/fast-power/)                               | computing $a^b \bmod m$ in $O(\log b)$            |
+| 9   | [Modular multiplicative inverse](concepts/modular-inverse/)      | dividing under a modulus, $\binom{n}{k} \bmod p$  |
 | 10  | [Chinese remainder theorem](concepts/chinese-remainder-theorem/) | combining congruences, splitting a computation    |
 | 11  | [Sieve of Eratosthenes](concepts/sieve/)                         | all primes up to $n$, fast factorization          |
 | 12  | [Euler's totient function](concepts/euler-phi/)                  | inverses for any modulus, huge exponents          |
