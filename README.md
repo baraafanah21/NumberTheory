@@ -9,17 +9,13 @@
 
 ![Concept dependency roadmap](assets/roadmap.png)
 
-```text
-┌─────────────────────────────────────┐
-│ Concepts → Patterns → Problems      │
-│ Theory   → Practice → Improvement   │
-└─────────────────────────────────────┘
-```
-
 I spent a lot of time jumping between books and resources. This is the condensed path I
 wish I had: one concept at a time, each one small, proved properly, and paired with the
 code that actually gets used in contests. The extra detail is there if you want it and
 safe to skip if you don't.
+
+**Start here:** read [Divisibility](concepts/divisibility/), then follow the arrows.
+Need code right now? Go straight to [Templates](templates/README.md).
 
 ## Contents
 
@@ -34,6 +30,11 @@ safe to skip if you don't.
 
 **Read the concepts in this order.** Each one uses only the ones before it. An arrow
 means "is needed by", taken from the **Needs** line at the top of each concept.
+
+The image at the top of this page shows the full dependency graph.
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 flowchart TD
@@ -65,6 +66,8 @@ flowchart TD
     MR14 --> PR15["15 · Pollard's rho"]
     G3 --> PR15
 ```
+
+</details>
 
 - **Progressions (1)** are closed forms and don't depend on anything else.
 - **The gcd track and the modular track meet at 9, the modular inverse.** Extended
@@ -98,6 +101,13 @@ flowchart TD
 | 15  | [Pollard's rho factorization](concepts/pollard-rho/)             | the _factors_ of one number, in $O(n^{1/4})$      |
 
 ## Explore the repository
+
+```text
+┌─────────────────────────────────────┐
+│ Concepts → Patterns → Problems      │
+│ Theory   → Practice → Improvement   │
+└─────────────────────────────────────┘
+```
 
 After the concepts, use these sections:
 
