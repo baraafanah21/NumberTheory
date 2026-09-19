@@ -13,7 +13,7 @@ are the ones worth the effort.
 
 ---
 
-```markdown
+````markdown
 # <Problem name>
 
 | | |
@@ -79,7 +79,7 @@ One sentence, phrased as a trigger for next time — the pattern, not the proble
 
 > When a query adds the same constant to every element, the differences are invariant, so
 > take the gcd of the differences once.
-```
+````
 
 ---
 

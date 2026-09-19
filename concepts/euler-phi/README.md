@@ -58,6 +58,7 @@ $10^5$-digit exponent collapses.
 > **The trap:** that needs $\gcd(a,m)=1$. With $a=2$, $m=4$, $k=4$: $2^4 \equiv 0$, but
 > $2^{4 \bmod \varphi(4)} = 2^0 = 1$. For general $a$ use the safe form, valid for **all**
 > $a$ once $k \ge \log_2 m$:
+>
 > $$a^{\,k} \equiv a^{\,(k \bmod \varphi(m)) + \varphi(m)} \pmod m$$
 
 ---
