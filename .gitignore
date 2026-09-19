@@ -7,6 +7,13 @@ a.out
 
 # Build output
 build/
+site/
+
+# Tooling
+node_modules/
+venv/
+.venv/
+__pycache__/
 
 # Editors
 .vscode/
