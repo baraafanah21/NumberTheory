@@ -7,6 +7,8 @@
 [![Last commit](https://img.shields.io/github/last-commit/baraafanah21/NumberTheory)](https://github.com/baraafanah21/NumberTheory/commits/main)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
+![Concept dependency roadmap](assets/roadmap.png)
+
 ```text
 ┌─────────────────────────────────────┐
 │ Concepts → Patterns → Problems      │
