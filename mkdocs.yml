@@ -1,0 +1,176 @@
+site_name: Number Theory
+site_description: A practical Number Theory knowledge base for Competitive Programming.
+site_url: https://baraafanah21.github.io/NumberTheory/
+repo_url: https://github.com/baraafanah21/NumberTheory
+repo_name: baraafanah21/NumberTheory
+edit_uri: edit/main/
+copyright: MIT License
+
+# The Markdown lives next to this file, so it can be read on GitHub as-is.
+docs_dir: .
+# MkDocs skips /templates/ by default; here it holds content, not theme templates.
+exclude_docs: |
+  !/templates/
+  /.github/
+  /hooks/
+  /venv/
+  /.venv/
+  /LICENSE
+  /requirements-docs.txt
+  *.cpp
+
+not_in_nav: |
+  /problems/TEMPLATE.md
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: light blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: light blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - same-dir
+  - search
+
+hooks:
+  - hooks/links.py
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - tables
+  - attr_list
+  - md_in_html
+  - admonition
+  - footnotes
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: README.md
+  - Concepts:
+      - 1 · Progressions:
+          - Overview: concepts/progressions/README.md
+          - Proofs: concepts/progressions/proofs.md
+          - Problems: concepts/progressions/problems.md
+      - 2 · Divisibility:
+          - Overview: concepts/divisibility/README.md
+          - Proofs: concepts/divisibility/proofs.md
+          - Problems: concepts/divisibility/problems.md
+      - 3 · GCD and the Euclidean algorithm:
+          - Overview: concepts/gcd/README.md
+          - Proofs: concepts/gcd/proofs.md
+          - Problems: concepts/gcd/problems.md
+      - 4 · Unique factorization:
+          - Overview: concepts/prime-factorization/README.md
+          - Proofs: concepts/prime-factorization/proofs.md
+          - Problems: concepts/prime-factorization/problems.md
+      - 5 · Divisors:
+          - Overview: concepts/divisors/README.md
+          - Proofs: concepts/divisors/proofs.md
+          - Problems: concepts/divisors/problems.md
+      - 6 · Extended Euclidean algorithm:
+          - Overview: concepts/extended-euclid/README.md
+          - Proofs: concepts/extended-euclid/proofs.md
+          - Problems: concepts/extended-euclid/problems.md
+      - 7 · Modular arithmetic:
+          - Overview: concepts/modular-arithmetic/README.md
+          - Proofs: concepts/modular-arithmetic/proofs.md
+          - Problems: concepts/modular-arithmetic/problems.md
+      - 8 · Fast power:
+          - Overview: concepts/fast-power/README.md
+          - Proofs: concepts/fast-power/proofs.md
+          - Problems: concepts/fast-power/problems.md
+      - 9 · Modular multiplicative inverse:
+          - Overview: concepts/modular-inverse/README.md
+          - Proofs: concepts/modular-inverse/proofs.md
+          - Problems: concepts/modular-inverse/problems.md
+      - 10 · Chinese remainder theorem:
+          - Overview: concepts/chinese-remainder-theorem/README.md
+          - Proofs: concepts/chinese-remainder-theorem/proofs.md
+          - Problems: concepts/chinese-remainder-theorem/problems.md
+      - 11 · Sieve of Eratosthenes:
+          - Overview: concepts/sieve/README.md
+          - Proofs: concepts/sieve/proofs.md
+          - Problems: concepts/sieve/problems.md
+      - 12 · Euler's totient function:
+          - Overview: concepts/euler-phi/README.md
+          - Proofs: concepts/euler-phi/proofs.md
+          - Problems: concepts/euler-phi/problems.md
+      - 13 · Primitive roots and discrete log:
+          - Overview: concepts/primitive-roots/README.md
+          - Proofs: concepts/primitive-roots/proofs.md
+          - Problems: concepts/primitive-roots/problems.md
+      - 14 · Miller–Rabin primality test:
+          - Overview: concepts/miller-rabin/README.md
+          - Proofs: concepts/miller-rabin/proofs.md
+          - Problems: concepts/miller-rabin/problems.md
+      - 15 · Pollard's rho factorization:
+          - Overview: concepts/pollard-rho/README.md
+          - Proofs: concepts/pollard-rho/proofs.md
+          - Problems: concepts/pollard-rho/problems.md
+  - Connections: connections/README.md
+  - Patterns:
+      - Overview: patterns/README.md
+      - patterns/gcd-pattern.md
+      - patterns/divisibility-pattern.md
+      - patterns/modular-pattern.md
+      - patterns/prime-pattern.md
+      - patterns/factorization-pattern.md
+      - patterns/big-exponent-pattern.md
+      - patterns/congruence-pattern.md
+  - Templates: templates/README.md
+  - Problems: problems/README.md
+  - Mistakes:
+      - Overview: mistakes/README.md
+      - mistakes/overflow.md
+      - mistakes/negative-modulo.md
+      - mistakes/modular-division.md
+      - mistakes/exponents.md
+      - mistakes/coprimality.md
+      - mistakes/boundaries.md
+      - mistakes/wrong-tool.md
+  - Cheatsheet: cheatsheet/README.md
